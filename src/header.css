@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.header__title {
+  color: white;
+  margin-top: 40px;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.header__btn {
+  position: absolute;
+  right: 0;
+  background-color: #fff;
+}
+
+.header__btn-theme {
+  top: 20px;
+  border-radius: 10px;
+  width: 150px;
+  aspect-ratio: 4/1;
+  font-size: 18px;
+}
+.header__btn-help {
+  top: 80px;
+  border-radius: 50%;
+  width: 40px;
+  aspect-ratio: 1/1;
+}

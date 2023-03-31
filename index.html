@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/_reset.css" />
     <link rel="stylesheet" href="src/styles.css" />
-    <script defer src="src/components/pomodoro/pomodoro.js"></script>
-    <script defer src="src/components/toDoList/toDoList.js"></script>
     <title>Study helper</title>
   </head>
-  <body></body>
+  <body>
+    <img class="background" src="src/res/imgs/background_03.jpg" />
+    <header class="header">
+      <h1 class="header__title">Study helper</h1>
+      <button class="header__btn-theme header__btn">Change theme</button>
+      <button class="header__btn-help header__btn">?</button>
+    </header>
+    <main class="main">
+      <a href="pomodoro.html">
+        <section class="pomodoro section">Pomodoro</section>
+      </a>
+      <a href="todolist.html">
+        <section class="todolist section">Todo-list</section>
+      </a>
+    </main>
+  </body>
 </html>
