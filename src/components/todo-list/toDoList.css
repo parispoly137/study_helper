@@ -1,4 +1,8 @@
 body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -9,7 +13,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 500px;
-  height: 700px;
+  height: 750px;
   background-color: #fff;
   border-radius: 20px;
 }

@@ -123,6 +123,25 @@ table {
   border-spacing: 0;
 }
 
+/* custom */
+@font-face {
+  font-family: "Times New Roman";
+  src: url("./res/font/TimesNewRoman.woff") format(‘woff’);
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Times New Roman";
+  src: url("./res/font/TimesNewRoman-Bold.woff") format(‘woff’);
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif !important;
+}
+
 button {
   border: none;
   background-color: inherit;
