@@ -138,6 +138,10 @@ table {
   font-style: normal;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif !important;
 }
