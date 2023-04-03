@@ -45,15 +45,20 @@ body {
   position: absolute;
   top: 250px;
   display: flex;
-  font-size: 36px;
+  font-size: 48px !important;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.pomodoro__arrow:hover {
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .arrow__next {
-  right: 0;
+  right: 0px;
 }
 
 .arrow__prev {
-  left: 0;
+  left: 10px;
 }
 
 .pomodoro__title {

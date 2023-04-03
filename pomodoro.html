@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="src/variables.css" />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
     <link rel="stylesheet" href="src/components/brainwave/brainwave.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <script defer src="src/components/pomodoro/pomodoro.js"></script>
     <script defer src="src/components/brainwave/brainwave.js"></script>
     <title>Pomodoro</title>
@@ -17,13 +21,16 @@
       <div class="pomodoro">
         <div class="pomodoro__slider">
           <div class="pomodoro__slide pomodoro__timer-setting">
-            <button class="pomodoro__arrow arrow__next">&rarr;</button>
+            <button class="pomodoro__arrow arrow__next material-icons">
+              arrow_forward_ios
+            </button>
 
             <h3 class="pomodoro__title">Timer Setting</h3>
           </div>
           <div class="pomodoro__slide pomodoro__timer">
-            <button class="pomodoro__arrow arrow__prev hidden">&larr;</button>
-
+            <button class="pomodoro__arrow arrow__prev material-icons hidden">
+              arrow_back_ios
+            </button>
             <h3 class="pomodoro__title">Timer</h3>
           </div>
         </div>
