@@ -1,42 +1,71 @@
-@import url("./brainwave/brainwave.css");
-
 body {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
 }
 
-.pomodoro {
+.pomodoro__section {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   width: 500px;
   height: 750px;
+  position: relative;
 }
 
-.pomodoro__timer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: inherit;
-  height: 530px;
-  border-radius: 70px;
-  padding: 25px 100px;
-  position: relative;
+.pomodoro {
   overflow: hidden;
 }
 
-.timer__img {
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  z-index: -1;
-  top: 0;
+.pomodoro__slider {
+  display: flex;
+  align-items: center;
+  width: 1000px;
+  height: 530px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s;
 }
 
-.timer__title {
+.pomodoro__slide {
+  width: 500px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 25px 100px;
+  border-radius: 70px;
+  background-image: url("../../res/imgs/decoration_04.jpg");
+  position: relative;
+}
+
+.pomodoro__arrow {
+  position: absolute;
+  top: 250px;
+  display: flex;
+  font-size: 48px !important;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.pomodoro__arrow:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.arrow__next {
+  right: 0px;
+}
+
+.arrow__prev {
+  left: 10px;
+}
+
+.pomodoro__title {
   font-size: 28px;
   font-weight: bold;
+}
+
+.hidden {
+  visibility: hidden;
 }
