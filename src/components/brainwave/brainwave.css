@@ -1,4 +1,8 @@
-.pomodoro__brainwave {
+* {
+  font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
+}
+
+.brainwave {
   display: flex;
   align-items: center;
   flex-direction: column;
