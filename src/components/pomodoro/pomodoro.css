@@ -6,35 +6,46 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.pomodoro__container {
+.pomodoro__section {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   width: 500px;
   height: 750px;
+  position: relative;
+}
+
+.pomodoro {
+  overflow: hidden;
 }
 
 .pomodoro__slider {
   display: flex;
   align-items: center;
-  flex-direction: column;
-  width: inherit;
+  width: 1000px;
   height: 530px;
-  border-radius: 70px;
-  padding: 25px 100px;
   position: relative;
   overflow: hidden;
+  transition: transform 0.5s;
 }
 
-.pomodoro__bg-img {
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  z-index: -1;
-  top: 0;
+.pomodoro__slide {
+  width: 500px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 25px 100px;
+  border-radius: 70px;
+  background-image: url("../../res/imgs/decoration_04.jpg");
 }
 
 .pomodoro__title {
   font-size: 28px;
   font-weight: bold;
+}
+
+.pomodoro__arrow {
+  position: absolute;
+  top: -50px;
+  right: -50px;
 }
