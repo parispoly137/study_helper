@@ -1,5 +1,3 @@
-@import url("./brainwave/brainwave.css");
-
 body {
   height: 100vh;
   display: flex;
@@ -8,7 +6,7 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.pomodoro {
+.pomodoro__container {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -16,7 +14,7 @@ body {
   height: 750px;
 }
 
-.pomodoro__timer {
+.pomodoro__slider {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -28,7 +26,7 @@ body {
   overflow: hidden;
 }
 
-.timer__img {
+.pomodoro__bg-img {
   position: absolute;
   width: inherit;
   height: inherit;
@@ -36,7 +34,7 @@ body {
   top: 0;
 }
 
-.timer__title {
+.pomodoro__title {
   font-size: 28px;
   font-weight: bold;
 }

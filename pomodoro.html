@@ -7,21 +7,29 @@
     <link rel="stylesheet" href="src/reset.css" />
     <link rel="stylesheet" href="src/variables.css" />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
-    <script defer src="src/components/pomodoro/brainwave/brainwave.js"></script>
-    <script
-      defer
-      src="src/components/pomodoro/timer-setting/timer-setting.js"
-    ></script>
-    <script defer src="src/components/pomodoro/timer/timer.js"></script>
+    <link rel="stylesheet" href="src/components/brainwave/brainwave.css" />
+    <script defer src="src/components/pomodoro/pomodoro.js"></script>
+    <script defer src="src/components/brainwave/brainwave.js"></script>
     <title>Pomodoro</title>
   </head>
   <body>
-    <div class="pomodoro">
-      <div class="pomodoro__timer">
-        <img class="timer__img" src="src/res/imgs/decoration_04.jpg" />
-        <h3 class="timer__title">Timer setting</h3>
+    <div class="pomodoro__container">
+      <div class="pomodoro">
+        <ul class="pomodoro__slider">
+          <img class="pomodoro__bg-img" src="src/res/imgs/decoration_04.jpg" />
+          <li class="pomodoro__timer-setting">
+            <h3 class="pomodoro__title">Timer Setting</h3>
+          </li>
+          <li class="pomodoro__timer">
+            <h3 class="pomodoro__title">Timer</h3>
+          </li>
+        </ul>
+        <div class="pomodoro__arrow">
+          <button class="arrow__prev">이전</button>
+          <button class="arrow__next">다음</button>
+        </div>
       </div>
-      <div class="pomodoro__brainwave">
+      <div class="brainwave">
         <h3 class="brainwave__title">Brainwave</h3>
         <div class="brainwave__buttons">
           <img class="brainwave__img" src="src/res/imgs/decoration_03.jpg" />
