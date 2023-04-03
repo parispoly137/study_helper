@@ -1,3 +1,5 @@
+@import url("../brainwave/brainwave.css");
+
 body {
   height: 100vh;
   display: flex;
@@ -6,8 +8,6 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* code */
-
 .pomodoro {
   display: flex;
   justify-content: space-between;
@@ -15,8 +15,6 @@ body {
   width: 500px;
   height: 750px;
 }
-
-/* timer */
 
 .pomodoro__timer {
   display: flex;
@@ -41,45 +39,4 @@ body {
 .timer__title {
   font-size: 28px;
   font-weight: bold;
-}
-
-/* brain-wave */
-
-.pomodoro__brain-wave {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: inherit;
-  height: 190px;
-  border-radius: 30px;
-  background-color: #d7d7d7;
-  padding: 20px;
-  z-index: -2;
-}
-
-.brain-wave__title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.brain-wave__buttons {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.3);
-  margin-top: 10px;
-  width: 100%;
-  height: 120px;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-}
-
-.brain-wave__img {
-  position: absolute;
-  width: inherit;
-  height: inherit;
-  z-index: -1;
-  top: 0;
-  filter: opacity(40%);
 }
