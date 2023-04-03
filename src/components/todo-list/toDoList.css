@@ -1,15 +1,10 @@
+@import url("todo-list-components/add-todo.css");
+
+/* code */
 body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* code */
 
-.todolist {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 500px;
-  height: 700px;
-  background-color: #fff;
-  border-radius: 20px;
-}
+
+
