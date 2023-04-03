@@ -37,6 +37,22 @@ body {
   padding: 25px 100px;
   border-radius: 70px;
   background-image: url("../../res/imgs/decoration_04.jpg");
+  position: relative;
+}
+
+.pomodoro__arrow {
+  position: absolute;
+  top: 250px;
+  display: flex;
+  font-size: 36px;
+}
+
+.arrow__next {
+  right: 0;
+}
+
+.arrow__prev {
+  left: 0;
 }
 
 .pomodoro__title {
@@ -44,8 +60,6 @@ body {
   font-weight: bold;
 }
 
-.pomodoro__arrow {
-  position: absolute;
-  top: -50px;
-  right: -50px;
+.hidden {
+  visibility: hidden;
 }
