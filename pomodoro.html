@@ -6,11 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/reset.css" />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
-    <script
-      defer
-      type="module"
-      src="src/components/pomodoro/pomodoro.js"
-    ></script>
+    <script defer src="src/components/pomodoro/pomodoro.js"></script>
+    <script defer src="src/components/brainwave/brainwave.js"></script>
     <title>Pomodoro</title>
   </head>
   <body>
@@ -23,7 +20,8 @@
         <h3 class="brainwave__title">Brainwave</h3>
         <div class="brainwave__buttons">
           <img class="brainwave__img" src="src/res/imgs/decoration_03.jpg" />
-          <button class="brainwave__button active">Alpha</button>
+          <audio class="brainwave__audio"></audio>
+          <button class="brainwave__button">Alpha</button>
           <button class="brainwave__button">Beta</button>
           <button class="brainwave__button">Delta</button>
         </div>
