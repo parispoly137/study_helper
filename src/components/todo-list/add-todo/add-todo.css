@@ -10,8 +10,11 @@
 }
 
 .todolist__title {
+  margin-top: 20px;
   font-family:'Times New Roman', Times, serif;
   color: rgb(38, 38, 38);
+  font-size: 30px;
+  font-weight: 600;
 }
 
 .todolist__adding-form {
@@ -40,7 +43,7 @@
   align-items: center;
   justify-content: center;
   width: 40px;
-  height: 33px;
+  height: 28px;
   margin-right: 6px;
   background-color: rgb(202 221 192);
   border:none;

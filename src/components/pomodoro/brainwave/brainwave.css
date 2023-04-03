@@ -1,0 +1,57 @@
+.pomodoro__brainwave {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: inherit;
+  height: 190px;
+  border-radius: 30px;
+  background-color: #d7d7d7;
+  padding: 20px;
+  z-index: 1;
+}
+
+.brainwave__title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.brainwave__buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  width: 100%;
+  height: 120px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  padding: 30px 20px;
+}
+
+.brainwave__img {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  z-index: -1;
+  top: 0;
+  filter: opacity(40%);
+}
+
+.brainwave__button {
+  background-color: #fff;
+  font-size: 32px;
+  border-radius: 10px;
+  color: var(--third-theme-color);
+  box-shadow: 8px 8px 5px -3px rgba(0, 0, 0, 0.33);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(0, 0, 0, 0.33);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(0, 0, 0, 0.33);
+}
+
+.brainwave__button.active {
+  background-color: var(--third-theme-color);
+  color: #fff;
+  box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
+  -webkit-box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
+  -moz-box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
+}

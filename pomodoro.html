@@ -4,15 +4,33 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/reset.css" />
+    <link rel="stylesheet" href="src/variables.css" />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
+    <script defer src="src/components/pomodoro/brainwave/brainwave.js"></script>
     <script
       defer
-      type="module"
-      src="src/components/pomodoro/pomodoro.js"
+      src="src/components/pomodoro/timer-setting/timer-setting.js"
     ></script>
+    <script defer src="src/components/pomodoro/timer/timer.js"></script>
     <title>Pomodoro</title>
   </head>
   <body>
-    <div class="pomodoro"></div>
+    <div class="pomodoro">
+      <div class="pomodoro__timer">
+        <img class="timer__img" src="src/res/imgs/decoration_04.jpg" />
+        <h3 class="timer__title">Timer setting</h3>
+      </div>
+      <div class="pomodoro__brainwave">
+        <h3 class="brainwave__title">Brainwave</h3>
+        <div class="brainwave__buttons">
+          <img class="brainwave__img" src="src/res/imgs/decoration_03.jpg" />
+          <audio class="brainwave__audio"></audio>
+          <button class="brainwave__button">Alpha</button>
+          <button class="brainwave__button">Beta</button>
+          <button class="brainwave__button">Delta</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

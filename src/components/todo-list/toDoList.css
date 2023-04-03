@@ -1,7 +1,11 @@
-@import url("todo-list-components/add-todo.css");
+@import url("add-todo/add-todo.css");
 
 /* code */
 body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
 }
 

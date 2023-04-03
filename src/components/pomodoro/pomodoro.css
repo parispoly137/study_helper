@@ -1,15 +1,42 @@
+@import url("./brainwave/brainwave.css");
+
 body {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* code */
-
-.pomodoro {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pomodoro {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
   width: 500px;
-  height: 700px;
-  background-color: #fff;
-  border-radius: 20px;
+  height: 750px;
+}
+
+.pomodoro__timer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: inherit;
+  height: 530px;
+  border-radius: 70px;
+  padding: 25px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.timer__img {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  z-index: -1;
+  top: 0;
+}
+
+.timer__title {
+  font-size: 28px;
+  font-weight: bold;
 }
