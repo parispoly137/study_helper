@@ -14,15 +14,18 @@
   font-weight: bold;
 }
 
-.timer-setting__input-box:first-of-type input {
+.timer-setting__input-box:first-of-type input,
+.timer-setting__input-box:first-of-type .timer-setting__confirm-text {
   margin-left: 35px;
 }
 
-.timer-setting__input-box:nth-of-type(2) input {
+.timer-setting__input-box:nth-of-type(2) input,
+.timer-setting__input-box:nth-of-type(2) .timer-setting__confirm-text {
   margin-left: 47px;
 }
 
-.timer-setting__input-box:nth-of-type(3) input {
+.timer-setting__input-box:nth-of-type(3) input,
+.timer-setting__input-box:nth-of-type(3) .timer-setting__confirm-text {
   margin-left: 67px;
 }
 
@@ -45,6 +48,18 @@
 .timer-setting__input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.timer-setting__confirm-text {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 35px;
+  margin-right: 10px;
+  color: var(--third-theme-color);
+  text-decoration: underline;
+  font-size: 26px !important;
 }
 
 .timer-setting__buttons {

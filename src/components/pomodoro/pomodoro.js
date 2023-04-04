@@ -1,3 +1,5 @@
+import setTimer from "./timer-setting/timer-setting.js";
+
 const slider = document.querySelector(".pomodoro__slider");
 const sliderBtns = document.querySelectorAll(".pomodoro__arrow");
 
@@ -17,3 +19,5 @@ const handleSlide = (e) => {
 };
 
 sliderBtns.forEach(btn => btn.addEventListener("click", handleSlide));
+
+setTimer();
