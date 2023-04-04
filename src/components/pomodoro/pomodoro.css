@@ -1,3 +1,5 @@
+@import url("./timer-setting/timer-setting.css");
+
 body {
   height: 100vh;
   display: flex;
@@ -34,8 +36,8 @@ body {
   width: 500px;
   height: 100%;
   display: flex;
-  justify-content: center;
-  padding: 25px 100px;
+  flex-direction: column;
+  padding: 25px 50px;
   border-radius: 70px;
   background-image: url("../../res/imgs/decoration_04.jpg");
   position: relative;
@@ -64,6 +66,7 @@ body {
 .pomodoro__title {
   font-size: 28px;
   font-weight: bold;
+  text-align: center;
 }
 
 .hidden {
