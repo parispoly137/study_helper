@@ -11,8 +11,7 @@ const saveToDos = () => {
 }
 
 
-const deleteToDo = (event) => {
-    const li = event.target.closest("li");
+const deleteToDo = (event, li) => {
     li.remove();
 }
 
@@ -23,19 +22,54 @@ const paintToDo = (newTodo) =>{
     newItem.innerHTML = `
     <input class="itemCheckbox" type="checkbox">
     <input class="itemInput" type="text" disabled value="${newTodo}"/>
-    <button class="itemBtn--modify">
-        <span class="material-symbols-outlined item__modify-btn">edit</span>
+    <button class="itemBtn--edit">
+        <span class="material-symbols-outlined item__edit-btn">edit</span>
     </button>
     <button class="itemBtn--delete">
         <span class="material-symbols-outlined item__delete-btn">delete</span>
     </button>
     `;
 
-    const itemBtnDelete = newItem.querySelector(".itemBtn--delete")
-    itemBtnDelete.addEventListener("click", deleteToDo);
+    const itemDeleteBtn = newItem.querySelector(".itemBtn--delete");
+    const itemDeleteBtnIcon = newItem.querySelector(".item__delete-btn");
     items.appendChild(newItem);
     
+    const itemInput = newItem.querySelector(".itemInput");
+    const itemEditBtn = newItem.querySelector(".itemBtn--edit");
+    const itemEditBtnIcon = newItem.querySelector(".item__edit-btn");
+    
+    itemEditBtn.addEventListener("click", (event) => {
+    event.preventDefault();     //preventDefault를 중간에 작성해줄 수도 있음.     
+    if (itemInput.disabled) {
+    itemInput.disabled = false;
+    itemEditBtnIcon.innerText ="expand_more";
+    itemDeleteBtnIcon.innerText = "close";
+    itemInput.dataset.previousValue = itemInput.value;
+    }
+    else {
+    itemInput.disabled = true;
+    itemEditBtnIcon.innerText ="edit";  
+    itemDeleteBtnIcon.innerText = "delete";
+    }
+    });
+
+    itemDeleteBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+    if (itemDeleteBtnIcon.innerText !== "delete") {
+        itemInput.disabled = true;
+        itemEditBtnIcon.innerText = "edit"
+        itemDeleteBtnIcon.innerText = "delete";
+        itemInput.value = itemInput.dataset.previousValue;
+        itemInput.dataset.previousValue = "";
+    }
+    else {
+        deleteToDo(event, newItem);
+    }
+    }
+    
+    )
 }
+
 
 
 const handleSubmit = (event) =>{
@@ -56,3 +90,4 @@ if (savedToDos !== null) {
     toDos = parsedToDos;
     parsedToDos.forEach(paintToDo);
 }
+
