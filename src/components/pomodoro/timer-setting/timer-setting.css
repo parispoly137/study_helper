@@ -81,6 +81,20 @@
   -moz-box-shadow: var(--button-shadow);
 }
 
+.timer-setting__buttons button:active:not(.disabled) {
+  box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
+  -webkit-box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
+  -moz-box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
+}
+
+.timer-setting__set-btn.disabled {
+  background-color: #9e9e9e;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  cursor: default;
+}
+
 .timer-setting__set-btn {
   background-color: var(--third-theme-color);
 }
