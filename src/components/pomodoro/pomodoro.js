@@ -1,8 +1,9 @@
+import setTimer from "./timer-setting/timer-setting.js";
+
 const slider = document.querySelector(".pomodoro__slider");
 const sliderBtns = document.querySelectorAll(".pomodoro__arrow");
 
 const handleSlide = (e) => {
-	console.log("how");
 	e.preventDefault();
 	sliderBtns.forEach(btn => btn.classList.remove("hidden"));
 
@@ -18,3 +19,5 @@ const handleSlide = (e) => {
 };
 
 sliderBtns.forEach(btn => btn.addEventListener("click", handleSlide));
+
+setTimer();

@@ -12,7 +12,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script defer src="src/components/pomodoro/pomodoro.js"></script>
+    <script
+      defer
+      type="module"
+      src="src/components/pomodoro/pomodoro.js"
+    ></script>
     <script defer src="src/components/brainwave/brainwave.js"></script>
     <title>Pomodoro</title>
   </head>
@@ -20,13 +24,50 @@
     <div class="pomodoro__section">
       <div class="pomodoro">
         <div class="pomodoro__slider">
+          <!-- Pomodoro__Timer-setting -->
           <div class="pomodoro__slide pomodoro__timer-setting">
             <button class="pomodoro__arrow arrow__next material-icons">
               arrow_forward_ios
             </button>
-
             <h3 class="pomodoro__title">Timer Setting</h3>
+            <form class="timer-setting__form">
+              <div class="timer-setting__input-box">
+                <span>Time to focus per session</span>
+                <input
+                  type="number"
+                  class="timer-setting__input"
+                  maxlength="3"
+                />
+                <span class="timer-setting__confirm-text"></span>
+                <span>m</span>
+              </div>
+              <div class="timer-setting__input-box">
+                <span>Time to rest per session</span>
+                <input
+                  type="number"
+                  class="timer-setting__input"
+                  maxlength="3"
+                />
+                <span class="timer-setting__confirm-text"></span>
+                <span>m</span>
+              </div>
+              <div class="timer-setting__input-box">
+                <span>Number of iterations</span>
+                <input
+                  type="number"
+                  class="timer-setting__input"
+                  maxlength="3"
+                />
+                <span class="timer-setting__confirm-text"></span>
+                <span>times</span>
+              </div>
+              <div class="timer-setting__buttons">
+                <button class="timer-setting__set-btn">set</button>
+                <button class="timer-setting__reset-btn">reset</button>
+              </div>
+            </form>
           </div>
+          <!-- Pomodoro__Timer -->
           <div class="pomodoro__slide pomodoro__timer">
             <button class="pomodoro__arrow arrow__prev material-icons hidden">
               arrow_back_ios
@@ -35,7 +76,7 @@
           </div>
         </div>
       </div>
-
+      <!-- Brainwave -->
       <div class="brainwave">
         <h3 class="brainwave__title">Brainwave</h3>
         <div class="brainwave__buttons">

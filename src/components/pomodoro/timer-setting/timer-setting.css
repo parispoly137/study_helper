@@ -1,0 +1,90 @@
+* {
+  font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
+}
+
+.timer-setting__input-box {
+  width: 100%;
+  margin-top: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.timer-setting__input-box span {
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.timer-setting__input-box:first-of-type input,
+.timer-setting__input-box:first-of-type .timer-setting__confirm-text {
+  margin-left: 35px;
+}
+
+.timer-setting__input-box:nth-of-type(2) input,
+.timer-setting__input-box:nth-of-type(2) .timer-setting__confirm-text {
+  margin-left: 47px;
+}
+
+.timer-setting__input-box:nth-of-type(3) input,
+.timer-setting__input-box:nth-of-type(3) .timer-setting__confirm-text {
+  margin-left: 67px;
+}
+
+.timer-setting__input {
+  width: 80px;
+  height: 35px;
+  margin-right: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 4px 4px 5px -3px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 4px 4px 5px -3px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 4px 4px 5px -3px rgba(0, 0, 0, 0.6);
+  outline: none;
+  font-weight: bold;
+  font-size: 21px;
+  text-align: center;
+}
+
+.timer-setting__input::-webkit-outer-spin-button,
+.timer-setting__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.timer-setting__confirm-text {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 35px;
+  margin-right: 10px;
+  color: var(--third-theme-color);
+  text-decoration: underline;
+  font-size: 26px !important;
+}
+
+.timer-setting__buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.timer-setting__buttons button {
+  width: 125px;
+  height: 50px;
+  margin: 0 20px;
+  margin-top: 60px;
+  font-size: 32px;
+  color: white;
+  border-radius: 25px;
+  box-shadow: var(--button-shadow);
+  -webkit-box-shadow: var(--button-shadow);
+  -moz-box-shadow: var(--button-shadow);
+}
+
+.timer-setting__set-btn {
+  background-color: var(--third-theme-color);
+}
+
+.timer-setting__reset-btn {
+  background-color: #92d050;
+}
