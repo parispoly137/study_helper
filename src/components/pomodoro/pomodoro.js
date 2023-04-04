@@ -2,7 +2,6 @@ const slider = document.querySelector(".pomodoro__slider");
 const sliderBtns = document.querySelectorAll(".pomodoro__arrow");
 
 const handleSlide = (e) => {
-	console.log("how");
 	e.preventDefault();
 	sliderBtns.forEach(btn => btn.classList.remove("hidden"));
 
