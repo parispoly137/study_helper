@@ -1,4 +1,5 @@
-@import url("add-todo/add-todo.css");
+@import url("addToDo/addToDo.css");
+@import url("toDoItems/toDoItems.css");
 
 /* code */
 body {

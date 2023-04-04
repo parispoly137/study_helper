@@ -7,16 +7,14 @@
     <link rel="stylesheet" href="src/reset.css" />
     <link rel="stylesheet" href="src/components/todo-list/toDoList.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script
-      defer
-      type="module"
-      src="src/components/todo-list/add-todo/add-todo.js"
-    ></script>
+    <script defer src="src/components/todo-list/addToDo/addToDo.js"></script>
+    <script defer src="src/components/todo-list/toDoItems/toDoItems.js"></script>
     <title>ToDoList</title>
   </head>
   <body>
     <div class="todolist">
       <h1 class="todolist__title">To do list</h1>
+      <form class="todo-items"></form>
       <form class="todolist__adding-form">
         <input type="text" maxlength="15" placeholder="해야할 일을 입력해주세요."/>
         <button>
