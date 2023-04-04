@@ -1,5 +1,5 @@
-const settingForm = document.querySelector(".timer-setting__form");
 const settingInputs = document.querySelectorAll(".timer-setting__input");
+const setBtn = document.querySelector(".timer-setting__set-btn");
 const resetBtn = document.querySelector(".timer-setting__reset-btn");
 const settingConfirms = document.querySelectorAll(".timer-setting__confirm-text");
 const nextArrow = document.querySelector(".arrow__next");
@@ -76,6 +76,8 @@ const handleSubmit = (event) => {
 	if (focus && rest && iteration) {
 		confirmDisplay({ focus, rest, iteration }); // 제출 값 출력
 		setLocalStorage(focus, rest, iteration); // localStorage에 저장
+		setBtn.setAttribute("disabled", "disabled"); // set button 비활성화
+		setBtn.classList.add("disabled"); // .disabled 클래스 추가
 	} else {
 		alert("값을 모두 입력해주세요.");
 	}
@@ -84,6 +86,7 @@ const handleSubmit = (event) => {
 
 /** 모든 input의 value를 초기화하는 함수 */
 const resetInput = () => {
+
 	// confirm 태그 출력 및 input 태그 숨김
 	settingInputs.forEach((input) => {
 		input.style.display = 'block';
@@ -92,11 +95,10 @@ const resetInput = () => {
 
 	settingConfirms.forEach((confirm) => { confirm.style.display = 'none'; });
 
-	// 저장된 값도 모두 초기화
-	localStorage.removeItem('timer-setting');
-
-	// Timer로 넘어가는 화살표 비활성화
-	nextArrow.style.display = 'none';
+	localStorage.removeItem('timer-setting'); // 저장된 값도 모두 초기화
+	nextArrow.style.display = 'none'; // Timer로 넘어가는 화살표 비활성화
+	setBtn.removeAttribute("disabled", "disabled"); // set button 비활성화 해제
+	setBtn.classList.remove("disabled"); // .disabled 클래스 제거
 };
 
 /** timer-setting의 reset버튼을 눌렀을 때, 모든 input 값 초기화*/
@@ -124,7 +126,7 @@ export default function setTimer() {
 	});
 
 	// set 버튼에 onSubmit 이벤트 할당
-	settingForm.addEventListener("submit", handleSubmit);
+	setBtn.addEventListener("click", handleSubmit);
 
 	// reset 버튼에 click 이벤트 할당
 	resetBtn.addEventListener("click", handleReset);
