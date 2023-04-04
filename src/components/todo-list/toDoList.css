@@ -13,3 +13,12 @@ body {
 
 
 
+.todolist {
+  background-image: url('../../res/imgs/decoration_01_green.jpg');
+  background-size: cover;
+  background-position: center center;
+
+}
+
+
+
