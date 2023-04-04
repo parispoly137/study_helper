@@ -32,6 +32,10 @@ const confirmDisplay = (setObj) => {
 	// confirm 태그 출력 및 input 태그 숨김
 	settingInputs.forEach((input) => { input.style.display = 'none'; });
 	settingConfirms.forEach((confirm) => { confirm.style.display = 'flex'; });
+
+	// set button 비활성화 및 관련 css 코드 적용
+	setBtn.setAttribute("disabled", "disabled"); // set button 비활성화
+	setBtn.classList.add("disabled"); // .disabled 클래스 추가
 };
 
 /** input에 입력한 값을 object에 할당하여 local storage에 저장 */
@@ -76,10 +80,8 @@ const handleSubmit = (event) => {
 	if (focus && rest && iteration) {
 		confirmDisplay({ focus, rest, iteration }); // 제출 값 출력
 		setLocalStorage(focus, rest, iteration); // localStorage에 저장
-		setBtn.setAttribute("disabled", "disabled"); // set button 비활성화
-		setBtn.classList.add("disabled"); // .disabled 클래스 추가
 	} else {
-		alert("값을 모두 입력해주세요.");
+		alert("Please enter the input values correctly as numbers.");
 	}
 
 };
