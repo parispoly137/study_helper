@@ -13,15 +13,16 @@ const saveToDos = () => {
 
 const deleteToDo = (event, li) => {
     li.remove();
+    toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id));
+    saveToDos();
 }
 
 const paintToDo = (newTodo) =>{
     const newItem = document.createElement("li");
-    const newItemId=Date.now();
-    newItem.id=newItemId;
+    newItem.id =newTodo.id;
     newItem.innerHTML = `
     <input class="itemCheckbox" type="checkbox">
-    <input class="itemInput" type="text" disabled value="${newTodo}"/>
+    <input class="itemInput" type="text" disabled value="${newTodo.text}"/>
     <button class="itemBtn--edit">
         <span class="material-symbols-outlined item__edit-btn">edit</span>
     </button>
@@ -76,18 +77,21 @@ const handleSubmit = (event) =>{
     event.preventDefault();
     const newTodo = addingToDoInput.value;
     addingToDoInput.value = "";
-    toDos.push(newTodo); //toDos 배열에 newTodo를 push 함
-    paintToDo(newTodo);
+    const newToDoObj = { //object 형식으로 data를 저장해줌
+        text:newTodo,
+        id: Date.now(),
+    }
+    toDos.push(newToDoObj); //toDos 배열에 newTodoObj를 push 함
+    paintToDo(newToDoObj);
     saveToDos();
 };
 
 addingToDoForm.addEventListener("submit", handleSubmit);
 
-const savedToDos = localStorage.getItem(TODOS_KEY); /*저장된 todo를 가져오는거므로 getItem*/ 
+const savedToDos = localStorage.getItem(TODOS_KEY); //저장된 todo를 가져오는거므로 getItem
 
 if (savedToDos !== null) {
     const parsedToDos = JSON.parse(savedToDos);
     toDos = parsedToDos;
     parsedToDos.forEach(paintToDo);
 }
-
