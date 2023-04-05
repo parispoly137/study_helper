@@ -1,0 +1,71 @@
+/* outline */
+.todolist__items-form {
+    width: 90%;
+    margin-top: 40px;
+}
+
+
+#todolist__items li{
+    width: 100%;
+    height: 40px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    
+}
+
+#todolist__items li div {
+    width: 88%;
+    height: 38px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 7px;
+    box-shadow:  2px 2px 7px gray;
+    background-color: transparent; 
+}
+
+/* element design */
+.itemCheckbox {
+    display: flex;
+    width:26px;
+    height:26px;
+    border: none;
+    appearance: none;
+    border-radius: 3px;
+    box-shadow:  2px 2px 7px gray;
+}
+
+.itemCheckbox:focus {
+background-color: aqua;
+}
+
+.itemInput {
+    width: 80%;
+    height: 30px;
+    border:none;
+    color: rgba(32, 32, 32, 0.911);
+    font-weight: 600;
+    padding-left: 15px;
+       /* background-color: transparent; */
+}
+
+.itemBtn--edit,.itemBtn--delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background-color: rgb(182 227 162);
+}
+
+.itemBtn--delete {
+    margin-right: 5px;
+}
+
+.item__edit-btn, .item__delete-btn {
+    color: rgb(82 142 42);
+    font-size: 5px;
+}

@@ -22,6 +22,7 @@ const paintToDo = (newTodo) =>{
     newItem.id =newTodo.id;
     newItem.innerHTML = `
     <input class="itemCheckbox" type="checkbox">
+    <div>
     <input class="itemInput" type="text" disabled value="${newTodo.text}"/>
     <button class="itemBtn--edit">
         <span class="material-symbols-outlined item__edit-btn">edit</span>
@@ -29,6 +30,7 @@ const paintToDo = (newTodo) =>{
     <button class="itemBtn--delete">
         <span class="material-symbols-outlined item__delete-btn">delete</span>
     </button>
+    </div>
     `;
 
     const itemDeleteBtn = newItem.querySelector(".itemBtn--delete");
