@@ -1,4 +1,5 @@
 @import url("./timer-setting/timer-setting.css");
+@import url("./timer/timer.css");
 
 body {
   height: 100vh;
