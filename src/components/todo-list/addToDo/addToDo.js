@@ -10,54 +10,29 @@ const saveToDos = () => {
     localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
 }
 
-
 const deleteToDo = (event, li) => {
     li.remove();
     toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id));
     saveToDos();
 }
 
-const paintToDo = (newTodo) =>{
-    const newItem = document.createElement("li");
-    newItem.id =newTodo.id;
-    newItem.innerHTML = `
-    <input class="itemCheckbox" type="checkbox">
-    <div>
-    <input class="itemInput" type="text" disabled value="${newTodo.text}"/>
-    <button class="itemBtn--edit">
-        <span class="material-symbols-outlined item__edit-btn">edit</span>
-    </button>
-    <button class="itemBtn--delete">
-        <span class="material-symbols-outlined item__delete-btn">delete</span>
-    </button>
-    </div>
-    `;
-
-    const itemDeleteBtn = newItem.querySelector(".itemBtn--delete");
-    const itemDeleteBtnIcon = newItem.querySelector(".item__delete-btn");
-    items.appendChild(newItem);
-    
-    const itemInput = newItem.querySelector(".itemInput");
-    const itemEditBtn = newItem.querySelector(".itemBtn--edit");
-    const itemEditBtnIcon = newItem.querySelector(".item__edit-btn");
-    
-    itemEditBtn.addEventListener("click", (event) => {
-    event.preventDefault();     //preventDefault를 중간에 작성해줄 수도 있음.     
+const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+    event.preventDefault();  //preventDefault를 중간에 작성해줄 수도 있음.     
     if (itemInput.disabled) {
-    itemInput.disabled = false;
-    itemEditBtnIcon.innerText ="expand_more";
-    itemDeleteBtnIcon.innerText = "close";
-    itemInput.dataset.previousValue = itemInput.value;
-    }
-    else {
-    itemInput.disabled = true;
-    itemEditBtnIcon.innerText ="edit";  
-    itemDeleteBtnIcon.innerText = "delete";
-    }
-    });
+        itemInput.disabled = false;
+        itemEditBtnIcon.innerText ="expand_more";
+        itemDeleteBtnIcon.innerText = "close";
+        itemInput.dataset.previousValue = itemInput.value;
+        }
+        else {
+        itemInput.disabled = true;
+        itemEditBtnIcon.innerText ="edit";  
+        itemDeleteBtnIcon.innerText = "delete";
+        }
+        };
 
-    itemDeleteBtn.addEventListener("click", (event) => {
-        event.preventDefault();
+const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem) => {
+    event.preventDefault();
     if (itemDeleteBtnIcon.innerText !== "delete") {
         itemInput.disabled = true;
         itemEditBtnIcon.innerText = "edit"
@@ -68,11 +43,56 @@ const paintToDo = (newTodo) =>{
     else {
         deleteToDo(event, newItem);
     }
-    }
-    
-    )
 }
 
+
+const paintToDo = (newTodo) =>{
+    const newItem = document.createElement("li");
+    newItem.id =newTodo.id;
+
+    const itemCheckbox = document.createElement("input");
+    itemCheckbox.type = "checkbox";
+    itemCheckbox.classList.add("itemCheckbox");
+
+    const itemDiv = document.createElement("div");
+    const itemInput = document.createElement("input");
+    itemInput.type = "text";
+    itemInput.disabled = true;
+    itemInput.value = newTodo.text;
+    itemInput.classList.add("itemInput");
+
+    const itemEditBtn = document.createElement("button");
+    itemEditBtn.classList.add("itemBtn--edit");
+    const itemEditBtnIcon = document.createElement("span");
+    itemEditBtnIcon.classList.add("material-symbols-outlined", "item__edit-btn");
+    itemEditBtnIcon.innerText = "edit";
+    itemEditBtn.appendChild(itemEditBtnIcon);
+    
+    const itemDeleteBtn = document.createElement("button");
+    itemDeleteBtn.classList.add("itemBtn--delete");
+    const itemDeleteBtnIcon = document.createElement("span");
+    itemDeleteBtnIcon.classList.add("material-symbols-outlined", "item__delete-btn");
+    itemDeleteBtnIcon.innerText = "delete";
+    itemDeleteBtn.appendChild(itemDeleteBtnIcon);
+    
+    itemDiv.appendChild(itemInput);
+    itemDiv.appendChild(itemEditBtn);
+    itemDiv.appendChild(itemDeleteBtn);
+  
+    newItem.appendChild(itemCheckbox);
+    newItem.appendChild(itemDiv);
+  
+    items.appendChild(newItem);
+
+    itemEditBtn.addEventListener("click", (event) => {
+        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
+    })
+
+    itemDeleteBtn.addEventListener("click", (event) => {
+        handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);
+    });
+
+}
 
 
 const handleSubmit = (event) =>{
