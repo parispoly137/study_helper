@@ -16,7 +16,7 @@ const deleteToDo = (event, li) => {
     saveToDos();
 }
 
-const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+const handleEditBtnClick = (itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();  //preventDefault를 중간에 작성해줄 수도 있음.     
     if (itemInput.disabled) {
         itemInput.disabled = false;
@@ -45,53 +45,70 @@ const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIc
     }
 }
 
+const handleCheckboxChecked = (itemCheckbox, itemDiv, itemInput) => {
+    if (itemCheckbox.checked) {
+        itemDiv.classList.add("itemDiv--checked");
+        itemInput.classList.add("itemInput--checked");
+    }
+    else {
+        itemDiv.classList.remove("itemDiv--checked");
+        itemInput.classList.remove("itemInput--checked");
+    }
+};
 
 const paintToDo = (newTodo) =>{
     const newItem = document.createElement("li");
     newItem.id =newTodo.id;
 
+    const itemCheckboxLabel = document.createElement("label");
+    itemCheckboxLabel.classList.add("itemCheckboxLabel");
     const itemCheckbox = document.createElement("input");
     itemCheckbox.type = "checkbox";
+    itemCheckbox.setAttribute("id", "itemCheckboxId");
     itemCheckbox.classList.add("itemCheckbox");
+    const itemCheckboxIcon = document.createElement("span");
+    itemCheckboxIcon.classList.add("material-symbols-outlined", "itemCheckboxIcon");
+    itemCheckboxIcon.innerText ="done";
+
+    itemCheckboxLabel.appendChild(itemCheckbox);
+    itemCheckboxLabel.appendChild(itemCheckboxIcon);
+    newItem.appendChild(itemCheckboxLabel);
 
     const itemDiv = document.createElement("div");
+    itemDiv.classList.add("itemDiv");
     const itemInput = document.createElement("input");
     itemInput.type = "text";
     itemInput.disabled = true;
     itemInput.value = newTodo.text;
     itemInput.classList.add("itemInput");
-
     const itemEditBtn = document.createElement("button");
     itemEditBtn.classList.add("itemBtn--edit");
     const itemEditBtnIcon = document.createElement("span");
     itemEditBtnIcon.classList.add("material-symbols-outlined", "item__edit-btn");
     itemEditBtnIcon.innerText = "edit";
     itemEditBtn.appendChild(itemEditBtnIcon);
-    
     const itemDeleteBtn = document.createElement("button");
     itemDeleteBtn.classList.add("itemBtn--delete");
     const itemDeleteBtnIcon = document.createElement("span");
     itemDeleteBtnIcon.classList.add("material-symbols-outlined", "item__delete-btn");
     itemDeleteBtnIcon.innerText = "delete";
     itemDeleteBtn.appendChild(itemDeleteBtnIcon);
-    
+
     itemDiv.appendChild(itemInput);
     itemDiv.appendChild(itemEditBtn);
     itemDiv.appendChild(itemDeleteBtn);
-  
-    newItem.appendChild(itemCheckbox);
     newItem.appendChild(itemDiv);
-  
     items.appendChild(newItem);
 
-    itemEditBtn.addEventListener("click", (event) => {
-        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
+    itemEditBtn.addEventListener("click", () => {
+        handleEditBtnClick(itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
     })
-
-    itemDeleteBtn.addEventListener("click", (event) => {
+    itemDeleteBtn.addEventListener("click", () => {
         handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);
     });
-
+    itemCheckbox.addEventListener("change", () => {
+        handleCheckboxChecked(itemCheckbox, itemDiv, itemInput);
+    })
 }
 
 

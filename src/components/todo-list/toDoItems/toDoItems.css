@@ -15,7 +15,9 @@
     
 }
 
-#todolist__items li div {
+/* element design */
+
+.itemDiv {
     width: 88%;
     height: 38px;
     display: flex;
@@ -26,8 +28,18 @@
     background-color: transparent; 
 }
 
-/* element design */
-.itemCheckbox {
+.itemDiv--checked {
+    background-color: rgb(192, 208, 181);
+}
+
+
+/*checkbox      */
+.itemCheckboxLabel{
+    display:flex;
+    position: relative;
+}
+
+.itemCheckbox{
     display: flex;
     width:26px;
     height:26px;
@@ -37,8 +49,23 @@
     box-shadow:  2px 2px 7px gray;
 }
 
-.itemCheckbox:focus {
-background-color: aqua;
+.itemCheckbox:checked{
+    visibility: hidden;
+}
+
+.itemCheckboxIcon{
+    display: flex;
+    position:absolute;
+    left: 4px;
+    top: 1px;
+    visibility: hidden;
+}
+
+.itemCheckbox:checked + .itemCheckboxIcon{
+    visibility:visible;
+    color:rgb(82 142 42);
+    font-size: 31px;
+    user-select: none;
 }
 
 .itemInput {
@@ -48,7 +75,11 @@ background-color: aqua;
     color: rgba(32, 32, 32, 0.911);
     font-weight: 600;
     padding-left: 15px;
-       /* background-color: transparent; */
+    background-color: transparent;
+}
+
+.itemInput--checked {
+    color:rgb(117, 116, 116)
 }
 
 .itemBtn--edit,.itemBtn--delete {
@@ -69,3 +100,4 @@ background-color: aqua;
     color: rgb(82 142 42);
     font-size: 5px;
 }
+
