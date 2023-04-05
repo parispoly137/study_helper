@@ -1,6 +1,6 @@
 const settingInputs = document.querySelectorAll(".timer-setting__input");
-const setBtn = document.querySelector(".timer-setting__set-btn");
-const resetBtn = document.querySelector(".timer-setting__reset-btn");
+const setBtn = document.querySelector(".timer-setting__button:first-of-type");
+const resetBtn = document.querySelector(".timer-setting__button:last-of-type");
 const settingConfirms = document.querySelectorAll(".timer-setting__confirm-text");
 const nextArrow = document.querySelector(".arrow__next");
 
@@ -110,7 +110,7 @@ const handleReset = (event) => {
 };
 
 /** Timer Setting 컴포넌트에서 사용자가 값을 설정한다. */
-export default function setTimer() {
+export default function loadSetTimer() {
 
 	// LocalStorage에 저장된 값이 있는지 체크하고, 있으면 불러오기
 	const savedValue = getLocalStorage();
