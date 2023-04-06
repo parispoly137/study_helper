@@ -16,7 +16,7 @@
   margin-top: 30px;
 }
 
-.timer__buttons button {
+.timer__button {
   width: 125px;
   height: 50px;
   margin: 0 20px;
@@ -29,7 +29,7 @@
   -moz-box-shadow: va;
 }
 
-.timer__buttons button:active:not(.disabled) {
+.timer__button:active:not(.disabled) {
   box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
   -webkit-box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
   -moz-box-shadow: -8px 8px 5px -3px rgba(0, 0, 0, 0.33) inset;
@@ -49,4 +49,8 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   cursor: default;
+}
+
+.timer__text.rest {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.25);
 }

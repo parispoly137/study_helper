@@ -10,6 +10,48 @@ let seconds;
 let timerId;
 let nowRepeatNum;
 
+/** action button의 UI 변경 */
+const setActionButtonDesign = (targetState) => {
+	if (targetState === "start") {
+		// action button ... start UI
+		actionBtn.style.backgroundColor = "#00b050";
+		actionBtn.innerText = "start";
+
+	} else if (targetState === "pause") {
+		// action button ... pause UI
+		actionBtn.style.backgroundColor = "#ffc56c";
+		actionBtn.innerText = "pause";
+	}
+};
+
+/** Timer의 텍스트(clock, session) UI 변경 */
+const setTextState = (textName, targetState) => {
+	if (targetState === "rest") {
+		// rest UI
+		textName.classList.add("rest");
+		textName.style.color = "white";
+
+	} else if (targetState === "focus") {
+		// focus UI
+		textName.classList.remove("rest");
+		textName.style.color = "black";
+	}
+};
+
+/** 버튼(action, reset)의 상태 변경 */
+const setButtonState = (buttonName, targetState) => {
+	if (targetState === "disabled") {
+		// button 기능 및 UI 비활성화
+		buttonName.setAttribute("disabled", "disabled");
+		buttonName.classList.add("disabled");
+
+	} else if (targetState === "active") {
+		// button 기능 및 UI 활성화
+		buttonName.removeAttribute("disabled");
+		buttonName.classList.remove("disabled");
+	}
+};
+
 /** 타이머 시작 */
 const startTimer = () => {
 	timerId = setInterval(() => {
@@ -19,14 +61,14 @@ const startTimer = () => {
 			minutes--; // 분 감소
 			seconds = 59; // 초를 59로 초기화
 		}
-		const { rest, iteration } = timerInfo;
+		const { focus, rest, iteration } = timerInfo;
 		const timeEnd = minutes === 0 && seconds === 0;
 
 		// timer clock 텍스트 설정 ... 2자리
 		clock.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
 		// 00:00일 때
-		if (timeEnd && nowRepeatNum === Number(iteration) - 1) {
+		if (timeEnd && nowRepeatNum === Number(iteration)) {
 			// 설정 반복 횟수 모두 달성한 경우
 			clock.innerText = "Congratulations!";
 			session.innerText = "-The End-";
@@ -35,9 +77,22 @@ const startTimer = () => {
 			setButtonState(actionBtn, "disabled");
 			setButtonState(resetBtn, "active");
 		} else if (timeEnd) {
-			minutes = rest;
-			nowRepeatNum++;
-			session.innerText = `${nowRepeatNum} / ${iteration}`;
+
+			// focus에서 timeEnd인 경우
+			if (!clock.classList.contains("rest")) {
+				minutes = rest;
+
+				setTextState(clock, "rest");
+				setTextState(session, "rest");
+			} else {
+				minutes = focus;
+				nowRepeatNum++;
+				session.innerText = `${nowRepeatNum} / ${iteration}`;
+
+				setTextState(clock, "focus");
+				setTextState(session, "focus");
+			}
+
 		}
 	}, 10);
 };
@@ -47,45 +102,35 @@ const resetTimer = () => {
 	minutes = 0;
 	seconds = 0;
 	timerId = null;
-	nowRepeatNum = 0;
+	nowRepeatNum = 1;
 
 	if (actionBtn.classList.contains("disabled")) {
-		actionBtn.style.backgroundColor = "#00b050";
-		actionBtn.innerText = "start"; // 텍스트
 		prevArrow.style.display = 'block'; // Timer-setting으로 넘어가는 화살표 활성화
 
+		setActionButtonDesign("start");
 		setButtonState(actionBtn, "active");
+
+	} else if (clock.classList.contains("rest")) {
+		setTextState(clock, "focus");
+		setTextState(session, "focus");
 	}
 	initializeTimer();
 };
 
-/** 버튼의 활성/비활성화를 바꿔주는 함수. */
-const setButtonState = (buttonName, targetState) => {
-	if (targetState === "disabled") {
-		buttonName.setAttribute("disabled", "disabled"); // btn 비활성화
-		buttonName.classList.add("disabled"); // btn 비활성화 UI
-	} else {
-		buttonName.removeAttribute("disabled"); // btn 활성화
-		buttonName.classList.remove("disabled"); // btn 활성화 UI
-	}
-};
+
 
 /** 버튼의 UI를 변경하고 타이머 동작 컨트롤 */
 const handleButton = () => {
 	if (actionBtn.innerText === "start") {
-		// start 버튼을 누르는 경우
-		actionBtn.style.backgroundColor = "#ffc56c"; // action btn 배경색 변경
-		actionBtn.innerText = "pause"; // action btn 텍스트 변경
 		prevArrow.style.display = 'none'; // Timer-setting으로 넘어가는 화살표 비활성화
 
+		setActionButtonDesign("pause");
 		setButtonState(resetBtn, "disabled");
 		startTimer(); // 타이머 시작
 	} else {
-		// pause 버튼을 누르는 경우
-		actionBtn.style.backgroundColor = "#00b050"; // action btn 배경색 변경
-		actionBtn.innerText = "start"; // action btn 텍스트 변경
 		prevArrow.style.display = 'block'; // Timer-setting으로 넘어가는 화살표 활성화
 
+		setActionButtonDesign("start");
 		setButtonState(resetBtn, "active");
 		clearInterval(timerId); // 타이머 일시정지
 	}
@@ -99,7 +144,7 @@ const initializeTimer = () => {
 	minutes = 0;
 	seconds = 0;
 	timerId = null;
-	nowRepeatNum = 0;
+	nowRepeatNum = 1;
 
 	clock.innerText = `${focus.padStart(2, '0')}:00`;
 	session.innerText = `${nowRepeatNum} / ${iteration}`;
