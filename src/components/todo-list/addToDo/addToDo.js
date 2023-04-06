@@ -16,20 +16,32 @@ const deleteToDo = (event, li) => {
     saveToDos();
 }
 
-const handleEditBtnClick = (itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();  //preventDefault를 중간에 작성해줄 수도 있음.     
     if (itemInput.disabled) {
         itemInput.disabled = false;
+        itemInput.focus();
         itemEditBtnIcon.innerText ="expand_more";
         itemDeleteBtnIcon.innerText = "close";
         itemInput.dataset.previousValue = itemInput.value;
         }
-        else {
+    else {
         itemInput.disabled = true;
         itemEditBtnIcon.innerText ="edit";  
         itemDeleteBtnIcon.innerText = "delete";
+        
+        /*toDos 배열에서 li.id로 해당 객체를 찾아 li 내부의 input 값의 value로 수정하기*/
+        const toDoLi = event.target.closest("li");
+        const toDoLiId= toDoLi.id;
+        const toDoInput = toDoLi.querySelector(".itemInput");
+        const editToDoText = toDoInput.value;
+        const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾는다는거다.
+        toDos[toDoIndex].text = editToDoText;
+        saveToDos();
         }
-        };
+    };
+       
 
 const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem) => {
     event.preventDefault();
@@ -54,6 +66,15 @@ const handleCheckboxChecked = (itemCheckbox, itemDiv, itemInput) => {
         itemDiv.classList.remove("itemDiv--checked");
         itemInput.classList.remove("itemInput--checked");
     }
+};
+
+const handleMouseHover =(itemCheckboxIcon, isHover) => {
+    if(isHover) {
+    itemCheckboxIcon.classList.add("itemCheckboxIcon--hover");
+    }
+    else {
+    itemCheckboxIcon.classList.remove("itemCheckboxIcon--hover");
+}
 };
 
 const paintToDo = (newTodo) =>{
@@ -101,7 +122,7 @@ const paintToDo = (newTodo) =>{
     items.appendChild(newItem);
 
     itemEditBtn.addEventListener("click", () => {
-        handleEditBtnClick(itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
+        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
     })
     itemDeleteBtn.addEventListener("click", () => {
         handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);
@@ -109,12 +130,14 @@ const paintToDo = (newTodo) =>{
     itemCheckbox.addEventListener("change", () => {
         handleCheckboxChecked(itemCheckbox, itemDiv, itemInput);
     })
+    itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
+    itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));
 }
 
 
-const handleSubmit = (event) =>{
+const handleSubmit = (event, inputData) =>{
     event.preventDefault();
-    const newTodo = addingToDoInput.value;
+    const newTodo = inputData.value;
     addingToDoInput.value = "";
     const newToDoObj = { //object 형식으로 data를 저장해줌
         text:newTodo,
@@ -125,7 +148,7 @@ const handleSubmit = (event) =>{
     saveToDos();
 };
 
-addingToDoForm.addEventListener("submit", handleSubmit);
+addingToDoForm.addEventListener("submit", (event) => handleSubmit(event, addingToDoInput));
 
 const savedToDos = localStorage.getItem(TODOS_KEY); //저장된 todo를 가져오는거므로 getItem
 

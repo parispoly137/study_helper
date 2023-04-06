@@ -56,12 +56,20 @@
 .itemCheckboxIcon{
     display: flex;
     position:absolute;
-    left: 4px;
+    left: 3px;
     top: 1px;
     visibility: hidden;
 }
+.itemCheckbox:not(:checked) + .itemCheckboxIcon--hover{
+    display: flex;
+    position:absolute;
+    visibility:visible;
+    color:rgb(82 142 42);
+    font-size: 31px;
+}
 
 .itemCheckbox:checked + .itemCheckboxIcon{
+    display: flex;
     visibility:visible;
     color:rgb(82 142 42);
     font-size: 31px;
@@ -76,6 +84,10 @@
     font-weight: 600;
     padding-left: 15px;
     background-color: transparent;
+}
+
+.itemInput:focus {
+    outline-color:rgb(7, 138, 7);
 }
 
 .itemInput--checked {
