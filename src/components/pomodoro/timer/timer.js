@@ -3,6 +3,8 @@ const session = document.querySelector(".timer__session");
 const actionBtn = document.querySelector(".timer__button:first-of-type");
 const resetBtn = document.querySelector(".timer__button:last-of-type");
 const prevArrow = document.querySelector(".arrow__prev");
+const audio = document.querySelector(".timer__audio");
+
 
 let timerInfo;
 let minutes;
@@ -54,6 +56,10 @@ const setButtonState = (buttonName, targetState) => {
 
 /** 타이머 시작 */
 const startTimer = () => {
+	if (!timerId) {
+		audio.src = `src/res/audio/Start_sound.mp3`;
+		audio.play();
+	}
 	timerId = setInterval(() => {
 		seconds--; // 초 감소
 
@@ -72,6 +78,8 @@ const startTimer = () => {
 			// 설정 반복 횟수 모두 달성한 경우
 			clock.innerText = "Congratulations!";
 			session.innerText = "-The End-";
+			audio.src = `src/res/audio/Finish_sound.mp3`;
+			audio.play();
 
 			clearInterval(timerId); // 타이머 종료
 			setButtonState(actionBtn, "disabled");
@@ -81,6 +89,8 @@ const startTimer = () => {
 			// focus에서 timeEnd인 경우
 			if (!clock.classList.contains("rest")) {
 				minutes = rest;
+				audio.src = `src/res/audio/Rest_sound.mp3`;
+				audio.play();
 
 				setTextState(clock, "rest");
 				setTextState(session, "rest");
@@ -88,13 +98,15 @@ const startTimer = () => {
 				minutes = focus;
 				nowRepeatNum++;
 				session.innerText = `${nowRepeatNum} / ${iteration}`;
+				audio.src = `src/res/audio/Start_sound.mp3`;
+				audio.play();
 
 				setTextState(clock, "focus");
 				setTextState(session, "focus");
 			}
 
 		}
-	}, 10);
+	}, 1000);
 };
 
 /** 타이머 리셋 */
