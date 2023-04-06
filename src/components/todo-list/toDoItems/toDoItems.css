@@ -1,24 +1,31 @@
 /* outline */
 .todolist__items-form {
-    width: 90%;
+    width: 95%;
     margin-top: 40px;
+    /* scroll-bar 추가 */
+    max-height: 540px;
+    overflow: overlay;
+
 }
 
 
+
+
 #todolist__items li{
-    width: 100%;
+    width: 90%;
     height: 40px;
     display:flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    margin-left: 3px;
     
 }
 
 /* element design */
 
 .itemDiv {
-    width: 88%;
+    width: 80%;
     height: 38px;
     display: flex;
     justify-content: space-between;
@@ -37,6 +44,8 @@
 .itemCheckboxLabel{
     display:flex;
     position: relative;
+    user-select: none;
+    margin-left: 25px;
 }
 
 .itemCheckbox{
@@ -94,6 +103,7 @@
     color:rgb(117, 116, 116)
 }
 
+
 .itemBtn--edit,.itemBtn--delete {
     display: flex;
     justify-content: center;
@@ -111,5 +121,6 @@
 .item__edit-btn, .item__delete-btn {
     color: rgb(82 142 42);
     font-size: 5px;
+    user-select: none;
 }
 

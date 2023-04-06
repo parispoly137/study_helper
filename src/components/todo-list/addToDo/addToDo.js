@@ -57,16 +57,29 @@ const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIc
     }
 }
 
-const handleCheckboxChecked = (itemCheckbox, itemDiv, itemInput) => {
+const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
     if (itemCheckbox.checked) {
         itemDiv.classList.add("itemDiv--checked");
         itemInput.classList.add("itemInput--checked");
-    }
+        const toDoLi = event.target.closest("li");
+        const toDoLiId= toDoLi.id;
+        const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        toDos[toDoIndex].checked = true;
+        saveToDos();
+        
+    }   
     else {
         itemDiv.classList.remove("itemDiv--checked");
         itemInput.classList.remove("itemInput--checked");
+        const toDoLi = event.target.closest("li");
+        const toDoLiId= toDoLi.id;
+        const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        toDos[toDoIndex].checked = false;
+        saveToDos();
     }
 };
+
+
 
 const handleMouseHover =(itemCheckboxIcon, isHover) => {
     if(isHover) {
@@ -95,6 +108,8 @@ const paintToDo = (newTodo) =>{
     itemCheckboxLabel.appendChild(itemCheckboxIcon);
     newItem.appendChild(itemCheckboxLabel);
 
+
+
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("itemDiv");
     const itemInput = document.createElement("input");
@@ -121,22 +136,32 @@ const paintToDo = (newTodo) =>{
     newItem.appendChild(itemDiv);
     items.appendChild(newItem);
 
+    if (newTodo.checked) {
+        itemDiv.classList.add("itemDiv--checked");
+        itemInput.classList.add("itemInput--checked");
+        itemCheckbox.checked = true;
+    }
+
     itemEditBtn.addEventListener("click", () => {
-        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
-    })
+        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);})
     itemDeleteBtn.addEventListener("click", () => {
-        handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);
-    });
+        handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);});
     itemCheckbox.addEventListener("change", () => {
-        handleCheckboxChecked(itemCheckbox, itemDiv, itemInput);
-    })
+        handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);})
     itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
     itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));
+
+    
 }
 
 
 const handleSubmit = (event, inputData) =>{
     event.preventDefault();
+    const addToDoValue = addingToDoInput.value.trim(); //tirm: 띄어쓰기한 부분 제외
+    if (addToDoValue.length === 0) { //입력한 값이 빈칸일 경우 addTodo 실행 x
+        alert("입력한 내용이 없습니다. 1자 이상 작성해주세요.");
+        event.preventDefault()}
+    else {
     const newTodo = inputData.value;
     addingToDoInput.value = "";
     const newToDoObj = { //object 형식으로 data를 저장해줌
@@ -145,10 +170,23 @@ const handleSubmit = (event, inputData) =>{
     }
     toDos.push(newToDoObj); //toDos 배열에 newTodoObj를 push 함
     paintToDo(newToDoObj);
-    saveToDos();
+    saveToDos();}
 };
 
+const handleKeypress = (event) => {
+    if (event.key === "Enter") {
+        const addToDoValue = addingToDoInput.value.trim();
+        if (addToDoValue.length === 0) {
+            alert("입력한 내용이 없습니다.");
+            event.preventDefault()
+        }
+    }
+}
+
 addingToDoForm.addEventListener("submit", (event) => handleSubmit(event, addingToDoInput));
+addingToDoInput.addEventListener("keypress", (event) => handleKeypress(event));
+
+
 
 const savedToDos = localStorage.getItem(TODOS_KEY); //저장된 todo를 가져오는거므로 getItem
 
