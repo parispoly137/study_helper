@@ -1,3 +1,5 @@
+import loadTimer from "../timer/timer.js";
+
 const settingInputs = document.querySelectorAll(".timer-setting__input");
 const setBtn = document.querySelector(".timer-setting__button:first-of-type");
 const resetBtn = document.querySelector(".timer-setting__button:last-of-type");
@@ -83,7 +85,7 @@ const handleSubmit = (event) => {
 	} else {
 		alert("Please enter the input values correctly as numbers.");
 	}
-
+	loadTimer(); // 설정한 값으로 timer 컴포넌트를 다시 로드
 };
 
 /** 모든 input의 value를 초기화하는 함수 */
