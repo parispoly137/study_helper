@@ -1,8 +1,7 @@
 import loadTimer from "../timer/timer.js";
 
 const settingInputs = document.querySelectorAll(".timer-setting__input");
-const setBtn = document.querySelector(".timer-setting__button:first-of-type");
-const resetBtn = document.querySelector(".timer-setting__button:last-of-type");
+const [setBtn, resetBtn] = document.querySelectorAll(".timer-setting__button");
 const settingConfirms = document.querySelectorAll(".timer-setting__confirm-text");
 const nextArrow = document.querySelector(".arrow__next");
 

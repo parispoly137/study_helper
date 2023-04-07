@@ -1,13 +1,10 @@
 import { getLocalStorage } from "../timer-setting/timer-setting.js";
 
-
 const clock = document.querySelector(".timer__clock");
 const session = document.querySelector(".timer__session");
-const actionBtn = document.querySelector(".timer__button:first-of-type");
-const resetBtn = document.querySelector(".timer__button:last-of-type");
+const [actionBtn, resetBtn] = document.querySelectorAll(".timer__button");
 const prevArrow = document.querySelector(".arrow__prev");
 const audio = document.querySelector(".timer__audio");
-
 
 let timerInfo;
 let minutes;
@@ -109,7 +106,7 @@ const startTimer = () => {
 			}
 
 		}
-	}, 1000);
+	}, 10);
 };
 
 /** 타이머 리셋 */
