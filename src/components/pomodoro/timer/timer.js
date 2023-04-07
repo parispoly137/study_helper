@@ -1,3 +1,6 @@
+import { getLocalStorage } from "../timer-setting/timer-setting.js";
+
+
 const clock = document.querySelector(".timer__clock");
 const session = document.querySelector(".timer__session");
 const actionBtn = document.querySelector(".timer__button:first-of-type");
@@ -165,16 +168,13 @@ const initializeTimer = () => {
 	setButtonState(resetBtn, "disabled");
 };
 
-/** LocalStorage에서 timer-setting 정보를 가져오는 함수 */
-const getLocalStorage = () => {
-	const timerInfoJSON = localStorage.getItem("timer-setting");
-	timerInfo = JSON.parse(timerInfoJSON); // timerInfo에 값 저장
-};
-
 /** Timer 컴포넌트에서, 저장된 값으로 타이머를 컨트롤한다. */
 export default function loadTimer() {
-	getLocalStorage(); // localStorage에서 값 호출
-	initializeTimer(); // 초기화
+	timerInfo = getLocalStorage(); // localStorage에서 값 호출
+
+	if (timerInfo) {
+		initializeTimer(); // 초기화
+	}
 
 	// 버튼(start, pause / reset)에 click 이벤트 할당
 	actionBtn.addEventListener("click", handleButton);
