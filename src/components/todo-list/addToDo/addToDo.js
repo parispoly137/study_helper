@@ -18,10 +18,20 @@ const deleteToDo = (event, li) => {
     saveToDos();
 }
 
-
+/**edit button 클릭을 통해 todo input 수정 활성화 및 적용 */
 const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
-    event.preventDefault();  //preventDefault를 중간에 작성해줄 수도 있음.     
-    if (!itemInput.disabled) {
+    event.preventDefault();  
+    const eventItemInput = event.target.parentElement.previousElementSibling;
+    const focusedInput = document.querySelector(":focus");
+    /*event가 실행되는 input과 다른 요소가 focus 되어있는 상태일 경우 중복 방지를 위해 event 취소*/
+    if (focusedInput && focusedInput !==eventItemInput) {
+      event.preventDefault();
+       }
+    
+    /*event가 실행되는 input과 focus된 input이 동일하거나 focus가 된 요소가 없을 경우 실행 */
+    else {
+        console.log("hi");
+     if (!itemInput.disabled) {
         itemInput.disabled = true;
         itemEditBtnIcon.innerText ="edit";  
         itemDeleteBtnIcon.innerText = "delete";
@@ -34,7 +44,7 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         //글자수를 만족하는지에 대한 조건문
         if(handleCharacterCountAlert(editToDoText)) {
-            cancelEdit(itemInput, toDoIndex);
+            cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
 
         }
         else { //글자수를 만족했을 때
@@ -44,16 +54,16 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         saveToDos();
         }}
 
-    else {
+     else {
         itemInput.disabled = false;
         itemInput.focus();
         itemEditBtnIcon.innerText ="expand_more";
         itemDeleteBtnIcon.innerText = "close";
         itemInput.dataset.previousValue = itemInput.value;
-        }};
+        }}};
+    
 
-/** ㅎㅇ */ 
-const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, cancelEdit) => {
+const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
 
     if (event.key === "Enter") {
         event.preventDefault();
@@ -68,7 +78,7 @@ const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         const editToDoText = toDoInput.value;
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         if(handleCharacterCountAlert(editToDoText)) {
-            cancelEdit(itemInput, toDoIndex);
+            cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
         }
         else {
         
@@ -86,22 +96,23 @@ itemsForm.addEventListener("keydown", function(event) {
     });
 
 /**내용을 수정했을 때 빈칸일 경우 취소하고 원래값으로 되돌리기 */
-const cancelEdit = (itemInput, toDoIndex) => {
+const cancelEdit = (itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon) => {
         const localToDos =  JSON.parse(savedToDos);
         const localToDo = localToDos[toDoIndex];
         const localToDoText = localToDo.text;
         itemInput.value = localToDoText;
         itemInput.disabled = false;
         itemInput.focus();
+        itemEditBtnIcon.innerText ="expand_more";  
+        itemDeleteBtnIcon.innerText = "close";
+        }
 
-
-        
-        /*
-        const localToDo =  localToDos[toDoIndex];
-        //toDos[toDoIndex].text = editToDoText;
-        itemInput.value = parsedToDo;
-        itemInput.disabled = true;*/
-    }
+/**todo input이 focus된 상태에서 focusout이 시도될 경우 막아줌 */
+const handleInputFocusout = (event, itemInput) => {
+    event.preventDefault();
+    itemInput.focus();
+    
+}
 
 
 const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem) => {
@@ -208,17 +219,31 @@ const paintToDo = (newTodo) =>{
 
     itemEditBtn.addEventListener("click", () => {
         handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon)});
+    itemEditBtn.addEventListener("mousedown", (event) => { 
+        /*input의 focus를 이용하기 위해 button의 focus를 막음 */
+        event.preventDefault();
+        itemEditBtn.blur();
+    })
     itemInput.addEventListener("keyup", () => {
-        handleEditBtnEnter(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, cancelEdit)});
+        handleEditBtnEnter(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon)});
+    itemInput.addEventListener("focusout", () => {
+        handleInputFocusout(event, itemInput)
+    });
     itemDeleteBtn.addEventListener("click", () => {
         handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);});
     itemCheckbox.addEventListener("change", () => {
         handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);})
     itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
-    itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));
-    
+    itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));  
     
 }
+
+document.addEventListener('click', function(event) {
+    // 현재 focus 되어 있는 요소가 있다면, 다른 요소를 클릭해도 focus를 유지
+    if (document.activeElement !== document.body) {
+      event.preventDefault();
+    }
+  });
 
 
 const handleSubmit = (event, inputData) =>{
