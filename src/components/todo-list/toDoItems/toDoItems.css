@@ -10,7 +10,6 @@
 
 
 
-
 #todolist__items li{
     width: 90%;
     height: 40px;
@@ -18,14 +17,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    margin-left: 3px;
+    margin-left: 7px;
     
 }
 
 /* element design */
 
 .itemDiv {
-    width: 80%;
+    width: 85%;
     height: 38px;
     display: flex;
     justify-content: space-between;
@@ -45,7 +44,7 @@
     display:flex;
     position: relative;
     user-select: none;
-    margin-left: 25px;
+    margin-left: 15px;
 }
 
 .itemCheckbox{
@@ -90,6 +89,7 @@
     height: 30px;
     border:none;
     color: rgba(32, 32, 32, 0.911);
+    font-size: 12px;
     font-weight: 600;
     padding-left: 15px;
     background-color: transparent;

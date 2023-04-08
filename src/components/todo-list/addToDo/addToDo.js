@@ -1,6 +1,8 @@
 const addingToDoForm = document.querySelector(".todolist__adding-form");
 const addingToDoInput = document.querySelector(".todolist__adding-form input");
+const itemsForm = document.querySelector(".todolist__items-form");
 const items = document.getElementById("todolist__items")
+
 
 const TODOS_KEY = "todos";
 
@@ -16,16 +18,10 @@ const deleteToDo = (event, li) => {
     saveToDos();
 }
 
+
 const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();  //preventDefault를 중간에 작성해줄 수도 있음.     
-    if (itemInput.disabled) {
-        itemInput.disabled = false;
-        itemInput.focus();
-        itemEditBtnIcon.innerText ="expand_more";
-        itemDeleteBtnIcon.innerText = "close";
-        itemInput.dataset.previousValue = itemInput.value;
-        }
-    else {
+    if (!itemInput.disabled) {
         itemInput.disabled = true;
         itemEditBtnIcon.innerText ="edit";  
         itemDeleteBtnIcon.innerText = "delete";
@@ -36,12 +32,77 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         const toDoInput = toDoLi.querySelector(".itemInput");
         const editToDoText = toDoInput.value;
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        //글자수를 만족하는지에 대한 조건문
+        if(handleCharacterCountAlert(editToDoText)) {
+            cancelEdit(itemInput, toDoIndex);
+
+        }
+        else { //글자수를 만족했을 때
+   
         //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾는다는거다.
         toDos[toDoIndex].text = editToDoText;
         saveToDos();
+        }}
+
+    else {
+        itemInput.disabled = false;
+        itemInput.focus();
+        itemEditBtnIcon.innerText ="expand_more";
+        itemDeleteBtnIcon.innerText = "close";
+        itemInput.dataset.previousValue = itemInput.value;
+        }};
+
+/** ㅎㅇ */ 
+const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, cancelEdit) => {
+
+    if (event.key === "Enter") {
+        event.preventDefault();
+        itemInput.disabled = true;
+        itemEditBtnIcon.innerText ="edit";  
+        itemDeleteBtnIcon.innerText = "delete";
+        //enter를 누른다음 내용을 넣어줘야 할거임, 그리고 enter를 누를 수 있는 상황은 disable이 false인 상황
+        /*toDos 배열에서 li.id로 해당 객체를 찾아 li 내부의 input 값의 value로 수정하기*/
+        const toDoLi = event.target.closest("li");
+        const toDoLiId= toDoLi.id;
+        const toDoInput = toDoLi.querySelector(".itemInput");
+        const editToDoText = toDoInput.value;
+        const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        if(handleCharacterCountAlert(editToDoText)) {
+            cancelEdit(itemInput, toDoIndex);
         }
-    };
-       
+        else {
+        
+        //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾는다는거다.
+        toDos[toDoIndex].text = editToDoText;
+        saveToDos();
+        }}
+    }
+
+    //enter 입력 시 error를 방지하기 위해 todo item의 submit을 방지
+itemsForm.addEventListener("keydown", function(event) {
+        if(event.keyCode === 13) {
+            event.preventDefault();
+        };
+    });
+
+/**내용을 수정했을 때 빈칸일 경우 취소하고 원래값으로 되돌리기 */
+const cancelEdit = (itemInput, toDoIndex) => {
+        const localToDos =  JSON.parse(savedToDos);
+        const localToDo = localToDos[toDoIndex];
+        const localToDoText = localToDo.text;
+        itemInput.value = localToDoText;
+        itemInput.disabled = false;
+        itemInput.focus();
+
+
+        
+        /*
+        const localToDo =  localToDos[toDoIndex];
+        //toDos[toDoIndex].text = editToDoText;
+        itemInput.value = parsedToDo;
+        itemInput.disabled = true;*/
+    }
+
 
 const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem) => {
     event.preventDefault();
@@ -117,6 +178,9 @@ const paintToDo = (newTodo) =>{
     itemInput.disabled = true;
     itemInput.value = newTodo.text;
     itemInput.classList.add("itemInput");
+    itemInput.minLength = "1";
+    itemInput.maxLength = "23";
+    itemInput.required = "true"
     const itemEditBtn = document.createElement("button");
     itemEditBtn.classList.add("itemBtn--edit");
     const itemEditBtnIcon = document.createElement("span");
@@ -143,24 +207,24 @@ const paintToDo = (newTodo) =>{
     }
 
     itemEditBtn.addEventListener("click", () => {
-        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);})
+        handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon)});
+    itemInput.addEventListener("keyup", () => {
+        handleEditBtnEnter(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, cancelEdit)});
     itemDeleteBtn.addEventListener("click", () => {
         handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);});
     itemCheckbox.addEventListener("change", () => {
         handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);})
     itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
     itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));
-
+    
     
 }
 
 
 const handleSubmit = (event, inputData) =>{
     event.preventDefault();
-    const addToDoValue = addingToDoInput.value.trim(); //tirm: 띄어쓰기한 부분 제외
-    if (addToDoValue.length === 0) { //입력한 값이 빈칸일 경우 addTodo 실행 x
-        alert("입력한 내용이 없습니다. 1자 이상 작성해주세요.");
-        event.preventDefault()}
+    const addToDoValue = addingToDoInput.value.trim(); 
+    if(handleCharacterCountAlert(addToDoValue)) {}
     else {
     const newTodo = inputData.value;
     addingToDoInput.value = "";
@@ -173,18 +237,22 @@ const handleSubmit = (event, inputData) =>{
     saveToDos();}
 };
 
-const handleKeypress = (event) => {
+
+const handleCharacterCount = (event, addToDoValue) => {
     if (event.key === "Enter") {
-        const addToDoValue = addingToDoInput.value.trim();
-        if (addToDoValue.length === 0) {
-            alert("입력한 내용이 없습니다.");
-            event.preventDefault()
-        }
-    }
-}
+        const addToDoValue = event.value.trim();//tirm: 띄어쓰기한 부분 제외
+        handleCharacterCountAlert(addToDoValue);
+        return true;
+    }}
+const handleCharacterCountAlert = (event) => {
+    if (event.length === 0) {//입력한 값이 빈칸일 경우 addTodo 실행 x
+        alert("입력한 내용이 없습니다. 1자 이상 작성해주세요.");
+        return true;
+    }}
+
 
 addingToDoForm.addEventListener("submit", (event) => handleSubmit(event, addingToDoInput));
-addingToDoInput.addEventListener("keypress", (event) => handleKeypress(event));
+addingToDoInput.addEventListener("keypress", (event) => handleCharacterCount(addingToDoInput));
 
 
 
