@@ -6,11 +6,8 @@ const [actionBtn, resetBtn] = document.querySelectorAll(".timer__button");
 const prevArrow = document.querySelector(".arrow__prev");
 const audio = document.querySelector(".timer__audio");
 
-let timerInfo;
-let minutes;
-let seconds;
-let timerId;
-let nowRepeatNum;
+
+let timerInfo, minutes, seconds, timerId, nowRepeatNum, focusCircle, restCircle;
 
 /** action button의 UI 변경 */
 const setActionButtonDesign = (targetState) => {
@@ -84,17 +81,38 @@ const startTimer = () => {
 			clearInterval(timerId); // 타이머 종료
 			setButtonState(actionBtn, "disabled");
 			setButtonState(resetBtn, "active");
-		} else if (timeEnd) {
 
-			// focus에서 timeEnd인 경우
+		} else if (timeEnd) {
+			const progressBars = document.querySelectorAll(".loader-spinner");
+
 			if (!clock.classList.contains("rest")) {
+				// focus에서 timeEnd인 경우
 				minutes = rest;
 				audio.src = `src/res/audio/Rest_sound.mp3`;
 				audio.play();
 
 				setTextState(clock, "rest");
 				setTextState(session, "rest");
+
+				progressBars.forEach(bar => bar.style.border = "5px solid #cdcfcee1");
+				/* 	
+	
+					focusCircle = null;
+					const spinners = document.querySelectorAll('.spinner-holder-one');
+					spinners.forEach((spinner) => {
+						spinner.remove();
+					});
+	
+					restCircle = new Circlebar({
+						element: ".timer__progress-bar",
+						dialWidth: 20,
+					});
+	
+					restCircle.initialize();
+					restCircle.valueFilter;
+	 */
 			} else {
+				// rest에서 timeEnd인 경우
 				minutes = focus;
 				nowRepeatNum++;
 				session.innerText = `${nowRepeatNum} / ${iteration}`;
@@ -103,8 +121,23 @@ const startTimer = () => {
 
 				setTextState(clock, "focus");
 				setTextState(session, "focus");
-			}
+				progressBars.forEach(bar => bar.style.border = "5px solid #00b050");  // progressbar 색상
 
+				/* 	const spinners = document.querySelectorAll('.spinner-holder-one');
+					spinners.forEach((spinner) => {
+						spinner.remove();
+					});
+	
+					restCircle = null;
+					focusCircle = new Circlebar({
+						element: ".timer__progress-bar",
+						dialWidth: 50,
+					});
+				}
+	
+				focusCircle.initialize();
+				focusCircle.valueFilter; */
+			}
 		}
 	}, 10);
 };
@@ -150,6 +183,12 @@ const handleButton = () => {
 
 /** 저장된 값으로 타이머 상태를 초기화 */
 const initializeTimer = () => {
+
+	focusCircle = new Circlebar({
+		element: ".timer__progress-bar",
+		dialWidth: 100
+	});
+
 	const { focus, iteration } = timerInfo;
 
 	// timer 관련 변수 초기화
@@ -177,4 +216,3 @@ export default function loadTimer() {
 	actionBtn.addEventListener("click", handleButton);
 	resetBtn.addEventListener("click", resetTimer);
 }
-
