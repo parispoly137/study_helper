@@ -26,8 +26,9 @@ sliderBtns.forEach(btn => btn.addEventListener("click", handleSlide));
 // 새로고침 시, 경고창
 window.onbeforeunload = function (e) {
 	e.preventDefault();
-	return;
+	return "";
 };
+
 
 loadSetTimer(); // timer-setting 컴포넌트 로드
 loadTimer(); // timer 컴포넌트 로드
