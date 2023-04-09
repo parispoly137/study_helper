@@ -17,11 +17,10 @@
   height: 300px;
   border-radius: 50%;
   box-sizing: border-box;
-  border: 5px solid #eeeeee;
+  border: 5px solid rgba(255, 255, 255, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-color: rgba(255, 255, 255, 0.4);
   box-shadow: 0px 7px 5px 0 rgba(0, 0, 0, 0.3),
     0px 7px 5px 0px rgba(0, 0, 0, 0.3) inset;
 }
