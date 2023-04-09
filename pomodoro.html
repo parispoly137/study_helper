@@ -6,18 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/reset.css" />
     <link rel="stylesheet" href="src/variables.css" />
+    <link
+      rel="stylesheet"
+      href="src/components/pomodoro/timer/progress-bar/progress-bar.css"
+    />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
     <link rel="stylesheet" href="src/components/brainwave/brainwave.css" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+
+    <script defer src="src/components/brainwave/brainwave.js"></script>
+    <script
+      defer
+      src="src/components/pomodoro/timer/progress-bar/progress-bar.js"
+    ></script>
     <script
       defer
       type="module"
       src="src/components/pomodoro/pomodoro.js"
     ></script>
-    <script defer src="src/components/brainwave/brainwave.js"></script>
     <title>Pomodoro</title>
   </head>
   <body>
@@ -31,39 +46,45 @@
             </button>
             <h3 class="pomodoro__title">Timer Setting</h3>
             <form class="timer-setting__form">
-              <div class="timer-setting__input-box">
+              <div class="timer-setting__input-container">
                 <span>Time to focus per session</span>
-                <input
-                  type="number"
-                  class="timer-setting__input"
-                  maxlength="3"
-                />
-                <span class="timer-setting__confirm-text"></span>
-                <span>m</span>
+                <div class="timer-setting__input-box">
+                  <input
+                    type="number"
+                    class="timer-setting__input"
+                    maxlength="3"
+                  />
+                  <span class="timer-setting__confirm-text"></span>
+                  <span>m</span>
+                </div>
               </div>
-              <div class="timer-setting__input-box">
+              <div class="timer-setting__input-container">
                 <span>Time to rest per session</span>
-                <input
-                  type="number"
-                  class="timer-setting__input"
-                  maxlength="3"
-                />
-                <span class="timer-setting__confirm-text"></span>
-                <span>m</span>
+                <div class="timer-setting__input-box">
+                  <input
+                    type="number"
+                    class="timer-setting__input"
+                    maxlength="3"
+                  />
+                  <span class="timer-setting__confirm-text"></span>
+                  <span>m</span>
+                </div>
               </div>
-              <div class="timer-setting__input-box">
+              <div class="timer-setting__input-container">
                 <span>Number of iterations</span>
-                <input
-                  type="number"
-                  class="timer-setting__input"
-                  maxlength="3"
-                />
-                <span class="timer-setting__confirm-text"></span>
-                <span>times</span>
+                <div class="timer-setting__input-box">
+                  <input
+                    type="number"
+                    class="timer-setting__input"
+                    maxlength="3"
+                  />
+                  <span class="timer-setting__confirm-text"></span>
+                  <span>times</span>
+                </div>
               </div>
               <div class="timer-setting__buttons">
-                <button class="timer-setting__set-btn">set</button>
-                <button class="timer-setting__reset-btn">reset</button>
+                <button class="timer-setting__button">set</button>
+                <button class="timer-setting__button">reset</button>
               </div>
             </form>
           </div>
@@ -72,7 +93,37 @@
             <button class="pomodoro__arrow arrow__prev material-icons hidden">
               arrow_back_ios
             </button>
+            <audio class="timer__audio"></audio>
             <h3 class="pomodoro__title">Timer</h3>
+            <div class="timer__progress-bar">
+              <div class="loader-bg"></div>
+              <div class="spinner-holder-one animate-0-25-a">
+                <div class="spinner-holder-two animate-0-25-b">
+                  <div class="loader-spinner"></div>
+                </div>
+              </div>
+              <div class="spinner-holder-one animate-25-50-a">
+                <div class="spinner-holder-two animate-25-50-b">
+                  <div class="loader-spinner"></div>
+                </div>
+              </div>
+              <div class="spinner-holder-one animate-50-75-a">
+                <div class="spinner-holder-two animate-50-75-b">
+                  <div class="loader-spinner"></div>
+                </div>
+              </div>
+              <div class="spinner-holder-one animate-75-100-a">
+                <div class="spinner-holder-two animate-75-100-b">
+                  <div class="loader-spinner"></div>
+                </div>
+              </div>
+            </div>
+            <h2 class="timer__clock timer__text"></h2>
+            <h4 class="timer__session timer__text"></h4>
+            <div class="timer__buttons">
+              <button class="timer__button">start</button>
+              <button class="timer__button">reset</button>
+            </div>
           </div>
         </div>
       </div>

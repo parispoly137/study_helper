@@ -1,4 +1,5 @@
 @import url("./timer-setting/timer-setting.css");
+@import url("./timer/timer.css");
 
 body {
   height: 100vh;
@@ -29,7 +30,6 @@ body {
   height: 530px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.5s;
 }
 
 .pomodoro__slide {
@@ -41,6 +41,7 @@ body {
   border-radius: 70px;
   background-image: url("../../res/imgs/decoration_04.jpg");
   position: relative;
+  z-index: 0;
 }
 
 .pomodoro__arrow {
