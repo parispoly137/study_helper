@@ -8,19 +8,21 @@ const TODOS_KEY = "todos";
 
 let toDos = []; //const로 하면 parsed로 인해 변수가 변경되는 내용을 받지 못한다.
 
+/**push 받은 toDos 배열 안의 object를 setItem을 이용해 localStorage에 저장하는 함수 */
 const saveToDos = () => {
     localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
 }
-
+/**todo를 지워주는 함수 */
 const deleteToDo = (event, li) => {
     li.remove();
     toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id));
     saveToDos();
 }
 
-/**edit button 클릭을 통해 todo input 수정 활성화 및 적용 */
+/**edit button 클릭을 통해 todo input 수정 활성화 및 적용하는 함수 */
 const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();  
+    
     const eventItemInput = event.target.parentElement.previousElementSibling;
     const focusedInput = document.querySelector(":focus");
     /*event가 실행되는 input과 다른 요소가 focus 되어있는 상태일 경우 중복 방지를 위해 event 취소*/
@@ -30,7 +32,6 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
     
     /*event가 실행되는 input과 focus된 input이 동일하거나 focus가 된 요소가 없을 경우 실행 */
     else {
-        console.log("hi");
      if (!itemInput.disabled) {
         itemInput.disabled = true;
         itemEditBtnIcon.innerText ="edit";  
@@ -40,20 +41,19 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         const toDoLi = event.target.closest("li");
         const toDoLiId= toDoLi.id;
         const toDoInput = toDoLi.querySelector(".itemInput");
-        const editToDoText = toDoInput.value;
+        const toDoInputValue = toDoInput.value;
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         //글자수를 만족하는지에 대한 조건문
-        if(handleCharacterCountAlert(editToDoText)) {
+        if(handleCharacterCountAlert(toDoInputValue)) {
             cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
-
         }
-        else { //글자수를 만족했을 때
-   
-        //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾는다는거다.
-        toDos[toDoIndex].text = editToDoText;
+        //글자수를 만족했을 때
+        else { 
+        toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
         }}
 
+        /*x 버튼을 눌렀을 때 이전값으로 돌아가게 해줌*/
      else {
         itemInput.disabled = false;
         itemInput.focus();
@@ -63,6 +63,19 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         }}};
     
 
+/**내용을 수정했을 때 빈칸일 경우 취소하고 원래값으로 되돌리는 함수 */
+const cancelEdit = (itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon) => {
+    const localStorageToDoText = toDos[toDoIndex].text;
+    itemInput.value=localStorageToDoText
+
+    itemInput.disabled = false;
+    itemInput.focus();
+    itemEditBtnIcon.innerText ="expand_more";  
+    itemDeleteBtnIcon.innerText = "close";
+    }
+
+
+/** Endter를 통해서도 todo input에 내용을 저장할 수 있게 만들어주는 함수*/
 const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
 
     if (event.key === "Enter") {
@@ -70,20 +83,19 @@ const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         itemInput.disabled = true;
         itemEditBtnIcon.innerText ="edit";  
         itemDeleteBtnIcon.innerText = "delete";
-        //enter를 누른다음 내용을 넣어줘야 할거임, 그리고 enter를 누를 수 있는 상황은 disable이 false인 상황
         /*toDos 배열에서 li.id로 해당 객체를 찾아 li 내부의 input 값의 value로 수정하기*/
         const toDoLi = event.target.closest("li");
         const toDoLiId= toDoLi.id;
         const toDoInput = toDoLi.querySelector(".itemInput");
-        const editToDoText = toDoInput.value;
+        const toDoInputValue = toDoInput.value;
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
-        if(handleCharacterCountAlert(editToDoText)) {
+        if(handleCharacterCountAlert(toDoInputValue)) {
             cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
         }
         else {
         
-        //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾는다는거다.
-        toDos[toDoIndex].text = editToDoText;
+        //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾아줌
+        toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
         }}
     }
@@ -95,19 +107,9 @@ itemsForm.addEventListener("keydown", function(event) {
         };
     });
 
-/**내용을 수정했을 때 빈칸일 경우 취소하고 원래값으로 되돌리기 */
-const cancelEdit = (itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon) => {
-        const localToDos =  JSON.parse(savedToDos);
-        const localToDo = localToDos[toDoIndex];
-        const localToDoText = localToDo.text;
-        itemInput.value = localToDoText;
-        itemInput.disabled = false;
-        itemInput.focus();
-        itemEditBtnIcon.innerText ="expand_more";  
-        itemDeleteBtnIcon.innerText = "close";
-        }
 
-/**todo input이 focus된 상태에서 focusout이 시도될 경우 막아줌 */
+
+/**todo input이 focus된 상태에서 focusout이 시도될 경우 막아주는 함수 */
 const handleInputFocusout = (event, itemInput) => {
     event.preventDefault();
     itemInput.focus();
@@ -115,6 +117,7 @@ const handleInputFocusout = (event, itemInput) => {
 }
 
 
+/**Delete button을 눌렀을 때 이전 값으로 돌아가게 하거나 todo item을 지워주는 함수*/
 const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem) => {
     event.preventDefault();
     if (itemDeleteBtnIcon.innerText !== "delete") {
@@ -129,8 +132,10 @@ const handleDeleteBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIc
     }
 }
 
+/**checkbox가 check 됐을 때 todo item의 style과 checked 된 상태를 localStorage에 저장하는 함수 */ 
 const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
     if (itemCheckbox.checked) {
+     
         itemDiv.classList.add("itemDiv--checked");
         itemInput.classList.add("itemInput--checked");
         const toDoLi = event.target.closest("li");
@@ -141,6 +146,7 @@ const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
         
     }   
     else {
+    
         itemDiv.classList.remove("itemDiv--checked");
         itemInput.classList.remove("itemInput--checked");
         const toDoLi = event.target.closest("li");
@@ -152,7 +158,7 @@ const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
 };
 
 
-
+/**Mouse가 checkbox에 hover 됐을 때 checkbox의 style을 변경해주는 함수 */
 const handleMouseHover =(itemCheckboxIcon, isHover) => {
     if(isHover) {
     itemCheckboxIcon.classList.add("itemCheckboxIcon--hover");
@@ -162,6 +168,7 @@ const handleMouseHover =(itemCheckboxIcon, isHover) => {
 }
 };
 
+/** todo를 화면에 그려주고 요소들의 event 감지를 연결해주는 함수 */
 const paintToDo = (newTodo) =>{
     const newItem = document.createElement("li");
     newItem.id =newTodo.id;
@@ -232,20 +239,17 @@ const paintToDo = (newTodo) =>{
     itemDeleteBtn.addEventListener("click", () => {
         handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);});
     itemCheckbox.addEventListener("change", () => {
-        handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);})
+        handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);
+   })
     itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
     itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));  
     
 }
 
-document.addEventListener('click', function(event) {
-    // 현재 focus 되어 있는 요소가 있다면, 다른 요소를 클릭해도 focus를 유지
-    if (document.activeElement !== document.body) {
-      event.preventDefault();
-    }
-  });
 
 
+/**addingToDoInput에서 submit이 발생했을 때 toDos 배열에 value와 localStorage에 toDos를 넣고
+ * todo를 형성하는 함수 */
 const handleSubmit = (event, inputData) =>{
     event.preventDefault();
     const addToDoValue = addingToDoInput.value.trim(); 
@@ -263,12 +267,15 @@ const handleSubmit = (event, inputData) =>{
 };
 
 
+/**글자수를 제한하는 함수 */
 const handleCharacterCount = (event, addToDoValue) => {
     if (event.key === "Enter") {
         const addToDoValue = event.value.trim();//tirm: 띄어쓰기한 부분 제외
         handleCharacterCountAlert(addToDoValue);
         return true;
     }}
+
+/**글자수가 만족되지 않을 시 경고해주는 함수 */
 const handleCharacterCountAlert = (event) => {
     if (event.length === 0) {//입력한 값이 빈칸일 경우 addTodo 실행 x
         alert("입력한 내용이 없습니다. 1자 이상 작성해주세요.");
@@ -277,10 +284,10 @@ const handleCharacterCountAlert = (event) => {
 
 
 addingToDoForm.addEventListener("submit", (event) => handleSubmit(event, addingToDoInput));
-addingToDoInput.addEventListener("keypress", (event) => handleCharacterCount(addingToDoInput));
+addingToDoInput.addEventListener("keypress", (event) => handleCharacterCount(event, addingToDoInput));
 
 
-
+/**toDos를 getItem을 이용해 localStorage에서 꺼내서 저장한 변수 */
 const savedToDos = localStorage.getItem(TODOS_KEY); //저장된 todo를 가져오는거므로 getItem
 
 if (savedToDos !== null) {
