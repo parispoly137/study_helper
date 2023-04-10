@@ -13,13 +13,48 @@ let timerInfo, minutes, seconds, timerId, nowRepeatNum;
 
 let progressValue, maxProgressValue, percentage;
 
-/** progress bar를 초기화*/
-const resetProgressBar = () => {
-	spinnerOne.style.transform = `rotate(90deg)`;
-	spinnerTwo.style.transform = `rotate(90deg)`;
-	spinnerThree.style.transform = `rotate(90deg)`;
-	spinnerFour.style.transform = `rotate(90deg)`;
+
+/** 타이머 리셋 */
+const resetTimer = () => {
+	// 타이머 관련 변수 초기화
+	minutes = 0;
+	seconds = 0;
+	timerId = null;
+	nowRepeatNum = 1;
+
+	if (actionBtn.classList.contains("disabled")) {
+		prevArrow.style.display = 'block'; // Timer-setting으로 넘어가는 화살표 활성화
+
+		setActionButtonDesign("start");
+		setButtonState(actionBtn, "active");
+
+	} else if (clock.classList.contains("rest")) {
+		setTextState(clock, "focus");
+		setTextState(session, "focus");
+	}
+
+	progressBar.style.display = "block";
+	progressValue = 0; // progress bar 값 초기화
+
+	resetProgressBar();
+	initializeTimer();
 };
+
+
+/** Timer의 텍스트(clock, session) UI 변경 */
+const setTextState = (textName, targetState) => {
+	if (targetState === "rest") {
+		// rest UI
+		textName.classList.add("rest");
+		textName.style.color = "white";
+
+	} else if (targetState === "focus") {
+		// focus UI
+		textName.classList.remove("rest");
+		textName.style.color = "black";
+	}
+};
+
 
 /** 현재 시간 진행도에 따른 progress bar 렌더링*/
 const renderProgressBar = (percentage) => {
@@ -50,48 +85,6 @@ const renderProgressBar = (percentage) => {
 	}
 };
 
-
-/** action button의 UI 변경 */
-const setActionButtonDesign = (targetState) => {
-	if (targetState === "start") {
-		// action button ... start UI
-		actionBtn.style.backgroundColor = "#00b050";
-		actionBtn.innerText = "start";
-
-	} else if (targetState === "pause") {
-		// action button ... pause UI
-		actionBtn.style.backgroundColor = "#ffc56c";
-		actionBtn.innerText = "pause";
-	}
-};
-
-/** Timer의 텍스트(clock, session) UI 변경 */
-const setTextState = (textName, targetState) => {
-	if (targetState === "rest") {
-		// rest UI
-		textName.classList.add("rest");
-		textName.style.color = "white";
-
-	} else if (targetState === "focus") {
-		// focus UI
-		textName.classList.remove("rest");
-		textName.style.color = "black";
-	}
-};
-
-/** 버튼(action, reset)의 상태 변경 */
-const setButtonState = (buttonName, targetState) => {
-	if (targetState === "disabled") {
-		// button 기능 및 UI 비활성화
-		buttonName.setAttribute("disabled", "disabled");
-		buttonName.classList.add("disabled");
-
-	} else if (targetState === "active") {
-		// button 기능 및 UI 활성화
-		buttonName.removeAttribute("disabled");
-		buttonName.classList.remove("disabled");
-	}
-};
 
 /** 타이머 시작 */
 const startTimer = () => {
@@ -174,31 +167,21 @@ const startTimer = () => {
 	}, 1000);
 };
 
-/** 타이머 리셋 */
-const resetTimer = () => {
-	// 타이머 관련 변수 초기화
-	minutes = 0;
-	seconds = 0;
-	timerId = null;
-	nowRepeatNum = 1;
 
-	if (actionBtn.classList.contains("disabled")) {
-		prevArrow.style.display = 'block'; // Timer-setting으로 넘어가는 화살표 활성화
+/** action button의 UI 변경 */
+const setActionButtonDesign = (targetState) => {
+	if (targetState === "start") {
+		// action button ... start UI
+		actionBtn.style.backgroundColor = "#00b050";
+		actionBtn.innerText = "start";
 
-		setActionButtonDesign("start");
-		setButtonState(actionBtn, "active");
-
-	} else if (clock.classList.contains("rest")) {
-		setTextState(clock, "focus");
-		setTextState(session, "focus");
+	} else if (targetState === "pause") {
+		// action button ... pause UI
+		actionBtn.style.backgroundColor = "#ffc56c";
+		actionBtn.innerText = "pause";
 	}
-
-	progressBar.style.display = "block";
-	progressValue = 0; // progressbar 값 초기화
-
-	resetProgressBar();
-	initializeTimer();
 };
+
 
 /** 버튼의 UI를 변경하고 타이머 동작 컨트롤 */
 const handleButton = () => {
@@ -218,6 +201,31 @@ const handleButton = () => {
 	}
 };
 
+
+/** progress bar를 초기화*/
+const resetProgressBar = () => {
+	spinnerOne.style.transform = `rotate(90deg)`;
+	spinnerTwo.style.transform = `rotate(90deg)`;
+	spinnerThree.style.transform = `rotate(90deg)`;
+	spinnerFour.style.transform = `rotate(90deg)`;
+};
+
+
+/** 버튼(action, reset)의 상태 변경 */
+const setButtonState = (buttonName, targetState) => {
+	if (targetState === "disabled") {
+		// button 기능 및 UI 비활성화
+		buttonName.setAttribute("disabled", "disabled");
+		buttonName.classList.add("disabled");
+
+	} else if (targetState === "active") {
+		// button 기능 및 UI 활성화
+		buttonName.removeAttribute("disabled");
+		buttonName.classList.remove("disabled");
+	}
+};
+
+
 /** 저장된 값으로 타이머 상태를 초기화 */
 const initializeTimer = () => {
 	const { focus, iteration } = timerInfo;
@@ -232,7 +240,7 @@ const initializeTimer = () => {
 	session.innerText = `${nowRepeatNum} / ${iteration}`;
 	minutes = focus; // 시간의 '분'을 focus 값으로 초기화
 
-	progressValue = 0; // progressbar 값 초기화
+	progressValue = 0; // progress bar 값 초기화
 	maxProgressValue = minutes * 60 + seconds; // 설정 시간에 따른 progress bar max값 설정
 
 	setButtonState(resetBtn, "disabled");
