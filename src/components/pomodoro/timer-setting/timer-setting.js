@@ -1,6 +1,7 @@
+import loadTimer from "../timer/timer.js";
+
 const settingInputs = document.querySelectorAll(".timer-setting__input");
-const setBtn = document.querySelector(".timer-setting__set-btn");
-const resetBtn = document.querySelector(".timer-setting__reset-btn");
+const [setBtn, resetBtn] = document.querySelectorAll(".timer-setting__button");
 const settingConfirms = document.querySelectorAll(".timer-setting__confirm-text");
 const nextArrow = document.querySelector(".arrow__next");
 
@@ -50,10 +51,20 @@ const setLocalStorage = (focus, rest, iteration) => {
 };
 
 /** local storage에 저장된 값을 불러오고 리턴 */
-const getLocalStorage = () => {
+export const getLocalStorage = () => {
 	const setObjJSON = localStorage.getItem("timer-setting");
 	const setObj = JSON.parse(setObjJSON);
 
+	// timerInfo에 숫자가 아닌 형식이 있을 경우, 삭제 후 초기화
+	for (let key in setObj) {
+		const value = Number(setObj[key]);
+
+		if (isNaN(value)) {
+			localStorage.removeItem("timer-setting"); // localStorage 정보 삭제
+			nextArrow.style.display = 'none'; // Timer로 넘어가는 화살표 비활성화
+			return;
+		}
+	}
 	return setObj;
 };
 
@@ -83,11 +94,12 @@ const handleSubmit = (event) => {
 	} else {
 		alert("Please enter the input values correctly as numbers.");
 	}
-
+	loadTimer(); // 설정한 값으로 timer 컴포넌트를 다시 로드
 };
 
 /** 모든 input의 value를 초기화하는 함수 */
-const resetInput = () => {
+const resetInput = (event) => {
+	event.preventDefault();
 
 	// confirm 태그 출력 및 input 태그 숨김
 	settingInputs.forEach((input) => {
@@ -103,14 +115,9 @@ const resetInput = () => {
 	setBtn.classList.remove("disabled"); // .disabled 클래스 제거
 };
 
-/** timer-setting의 reset버튼을 눌렀을 때, 모든 input 값 초기화*/
-const handleReset = (event) => {
-	event.preventDefault();
-	resetInput();
-};
 
 /** Timer Setting 컴포넌트에서 사용자가 값을 설정한다. */
-export default function setTimer() {
+export default function loadSetTimer() {
 
 	// LocalStorage에 저장된 값이 있는지 체크하고, 있으면 불러오기
 	const savedValue = getLocalStorage();
@@ -131,5 +138,5 @@ export default function setTimer() {
 	setBtn.addEventListener("click", handleSubmit);
 
 	// reset 버튼에 click 이벤트 할당
-	resetBtn.addEventListener("click", handleReset);
+	resetBtn.addEventListener("click", resetInput);
 }
