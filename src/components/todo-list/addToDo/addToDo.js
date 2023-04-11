@@ -243,10 +243,38 @@ const paintToDo = (newTodo) =>{
    })
     itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
     itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));  
+
+
+  
     
 }
 
 
+window.addEventListener("storage", () => handleStorageChange(event)); 
+
+/**localStorage에서 text를 바꿨을 때 todo input에 수정한 내용을 적용하는 함수 */
+const handleStorageChange = (event) => {
+    
+     /* localStorage의 todos에서 text가 변화된 객체를 추적*/
+     if(event.key === "todos") {
+      const oldValue = JSON.parse(event.oldValue);
+      const newValue = JSON.parse(event.newValue);
+    for (let i = 0; i < oldValue.length; i++) {
+        if(oldValue[i].text !== newValue[i].text) {
+            const changedIndex = i;
+            const newValueId = newValue[changedIndex].id.toString();
+            const screenLis = document.querySelectorAll("#todolist__items li");
+            /*localStorage와 아이디가 같은 li를 추적*/
+             for (let i=0; i< screenLis.length; i++) {
+                /*추적한 id를 가진 li의 input에 수정한 내용 적용 */
+                if (screenLis[i].id === newValueId) {
+                    screenInput.value = newValue[changedIndex].text;
+                }
+            }
+        }
+    }
+     }
+    }
 
 /**addingToDoInput에서 submit이 발생했을 때 toDos 배열에 value와 localStorage에 toDos를 넣고
  * todo를 형성하는 함수 */
@@ -255,7 +283,7 @@ const handleSubmit = (event, inputData) =>{
     const addToDoValue = addingToDoInput.value.trim(); 
     if(handleCharacterCountAlert(addToDoValue)) {}
     else {
-    const newTodo = inputData.value;
+    const newTodo = inputData.value.trim();
     addingToDoInput.value = "";
     const newToDoObj = { //object 형식으로 data를 저장해줌
         text:newTodo,
