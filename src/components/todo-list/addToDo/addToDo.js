@@ -41,7 +41,7 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         const toDoLi = event.target.closest("li");
         const toDoLiId= toDoLi.id;
         const toDoInput = toDoLi.querySelector(".itemInput");
-        const toDoInputValue = toDoInput.value;
+        const toDoInputValue = toDoInput.value.trim();
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         //글자수를 만족하는지에 대한 조건문
         if(handleCharacterCountAlert(toDoInputValue)) {
@@ -49,6 +49,7 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         }
         //글자수를 만족했을 때
         else { 
+        itemInput.value = toDoInputValue;
         toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
         }}
@@ -87,7 +88,7 @@ const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         const toDoLi = event.target.closest("li");
         const toDoLiId= toDoLi.id;
         const toDoInput = toDoLi.querySelector(".itemInput");
-        const toDoInputValue = toDoInput.value;
+        const toDoInputValue = toDoInput.value.trim();
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         if(handleCharacterCountAlert(toDoInputValue)) {
             cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
@@ -95,6 +96,7 @@ const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         else {
         
         //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾아줌
+        itemInput.value = toDoInputValue;
         toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
         }}
@@ -271,12 +273,19 @@ const handleStorageChange = (event) => {
                     if (screenLis[i].id === newValueId) {
                     /*추적한 id를 가진 li의 input에 수정한 내용 적용 */
                     const screenInput = screenLis[i].querySelector(".itemInput");
-                    screenInput.value = newValue[changedIndex].text;
+                    let newItemValue = newValue[changedIndex].text;
+                    screenInput.value = newItemValue.trim();
                     const screenInputValue = screenInput.value;
-                    /*text 속성의 다른 부분을 건드리면 삭제되게 적용 */
-                    if (screenInputValue === "undefined") {
+                        /*ls에서 text 속성의 다른 부분을 건드리면 삭제되게 적용 */
+                        if (screenInputValue === "undefined") {
                         deleteToDo(event, screenLis[i]);
-                    }
+                         }
+                         /*ls에서 text 앞뒤에 빈칸이 있을 경우 trim() 적용 */
+                        else if (newItemValue.startsWith("") || newItemValue.endsWith("")) {
+                            newItemValue = newItemValue.trim();
+                            newValue[changedIndex].text = newItemValue;
+                            localStorage.setItem(TODOS_KEY, JSON.stringify(newValue));
+                        }
                     }
                 }
             }
@@ -303,11 +312,11 @@ const handleStorageChange = (event) => {
  * todo를 형성하는 함수 */
 const handleSubmit = (event, inputData) =>{
     event.preventDefault();
-    const addToDoValue = addingToDoInput.value.trim(); 
+    const addToDoValue = inputData.value.trim(); 
     if(handleCharacterCountAlert(addToDoValue)) {}
     else {
     const newTodo = inputData.value.trim();
-    addingToDoInput.value = "";
+    inputData.value = "";
     const newToDoObj = { //object 형식으로 data를 저장해줌
         text:newTodo,
         id: Date.now(),
@@ -319,9 +328,9 @@ const handleSubmit = (event, inputData) =>{
 
 
 /**글자수를 제한하는 함수 */
-const handleCharacterCount = (event, addToDoValue) => {
+const handleCharacterCount = (event, addingToDoInput) => {
     if (event.key === "Enter") {
-        const addToDoValue = event.value.trim();//tirm: 띄어쓰기한 부분 제외
+        const addToDoValue = addingToDoInput.value.trim();//tirm: 띄어쓰기한 부분 제외
         handleCharacterCountAlert(addToDoValue);
         return true;
     }}
