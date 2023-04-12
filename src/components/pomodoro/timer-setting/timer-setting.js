@@ -1,8 +1,8 @@
 import loadTimer from "../timer/timer.js";
 
-const settingInputs = document.querySelectorAll(".timer-setting__input");
+const timerSettingInputs = document.querySelectorAll(".timer-setting__input");
 const [setBtn, resetBtn] = document.querySelectorAll(".timer-setting__button");
-const settingConfirms = document.querySelectorAll(".timer-setting__confirm-text");
+const confirmedValues = document.querySelectorAll(".timer-setting__confirm-text");
 const nextArrow = document.querySelector(".arrow__next");
 
 
@@ -11,18 +11,19 @@ const resetInput = (event) => {
 	event.preventDefault();
 
 	// confirm 태그 출력 및 input 태그 숨김
-	settingInputs.forEach((input) => {
+	timerSettingInputs.forEach((input) => {
 		showElement(input);
 		input.value = '';
 	});
 
-	hideElement(nextArrow); // 슬라이드 화살표 비활성화
-	settingConfirms.forEach((confirm) => hideElement(confirm));
+	confirmedValues.forEach((confirmedValue) => hideElement(confirmedValue));
 	localStorage.removeItem('timer-setting'); // 저장된 값 모두 초기화
 
 	// set button 활성화
 	setBtn.removeAttribute("disabled", "disabled");
 	setBtn.classList.remove("disabled");
+
+	hideElement(nextArrow); // 슬라이드 화살표 비활성화
 };
 
 
@@ -37,35 +38,30 @@ const setLocalStorage = (timerSetting) => {
 const handleSubmit = (event) => {
 	event.preventDefault();
 
-	const inputs = [...document.querySelectorAll(".timer-setting__input")];
-	const inputValues = inputs.map(input => input.value); // 입력값 배열
-	const hasInputValues = inputs.every(input => input.value); // 입력값이 모두 존재하면 true
+	const inputs = [...timerSettingInputs]; // input tags
+	const [focus, rest, iteration] = inputs.map(input => input.value); // 입력값 배열
+	const inputValuesAreValid = inputs.every(input => input.value); // 입력값이 모두 존재하면 true
 
-	const focus = inputValues[0];
-	const rest = inputValues[1];
-	const iteration = inputValues[2];
-
-
-	if (hasInputValues) {
+	if (inputValuesAreValid) {
 		displayConfirmedValues({ focus, rest, iteration }); // 제출 값 출력
 		setLocalStorage({ focus, rest, iteration }); // localStorage에 저장
+		loadTimer(); // 설정한 값으로 timer 컴포넌트를 다시 로드
 	} else {
 		alert("Please enter the input values correctly as numbers.");
 	}
-	loadTimer(); // 설정한 값으로 timer 컴포넌트를 다시 로드
 };
 
 
 /** input 입력값 유효성 검사 */
-const validateInput = (event, inputText) => {
+const validateInput = (event, inputValue) => {
 	// "0" 시작 방지
-	if (inputText.charAt(0) === "0") {
-		event.target.value = inputText.substring(1);
+	if (inputValue.charAt(0) === "0") {
+		event.target.value = inputValue.substring(1);
 	};
 
 	// 최대 3글자 제한
-	if (inputText.length > 3) {
-		event.target.value = inputText.slice(0, 3);
+	if (inputValue.length > 3) {
+		event.target.value = inputValue.slice(0, 3);
 	}
 };
 
@@ -73,8 +69,12 @@ const validateInput = (event, inputText) => {
 /** addEventListener를 모두 등록 */
 const registerEventListeners = () => {
 	// 모든 timer-setting input 태그에 input 이벤트 리스너 할당
-	settingInputs.forEach(input => {
-		input.addEventListener("input", (event) => validateInput(event, input.value));
+	timerSettingInputs.forEach(input => {
+		input.addEventListener("input", (event) => {
+			const inputValue = input.value;
+
+			validateInput(event, inputValue); // inputValue가 바뀔 때마다 호출
+		});
 	});
 
 	setBtn.addEventListener("click", handleSubmit);
@@ -88,11 +88,7 @@ const displayConfirmedValues = (timerSetting) => {
 	if (Object.keys(timerSetting).length === 0) return;
 
 	const { focus, rest, iteration } = timerSetting;
-
-	// 사용자가 제출한 입력값을 보여주는 confirm tag 할당
-	const focusConfirm = settingConfirms[0];
-	const restConfirm = settingConfirms[1];
-	const iterationConfirm = settingConfirms[2];
+	const [focusConfirm, restConfirm, iterationConfirm] = [...confirmedValues];
 
 
 	// confirm display 태그에 저장된 사용자 입력값 출력
@@ -101,10 +97,8 @@ const displayConfirmedValues = (timerSetting) => {
 	iterationConfirm.innerText = parseInt(iteration);
 
 	// confirm 태그 출력 및 input 태그 숨김
-	settingInputs.forEach((input) => {
-		hideElement(input);
-	});
-	settingConfirms.forEach((confirm) => showElement(confirm));
+	timerSettingInputs.forEach((input) => hideElement(input));
+	confirmedValues.forEach((confirmedValue) => showElement(confirmedValue));
 
 	// set button 비활성화 및 관련 css 코드 적용
 	setBtn.setAttribute("disabled", "disabled"); // set button 비활성화
