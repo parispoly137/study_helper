@@ -125,10 +125,9 @@ export const getLocalStorage = () => {
 	if (!timerSettingJSON || timerSettingJSON.trim().length === 0) return;
 
 	const timerSetting = JSON.parse(timerSettingJSON);
-
 	// timerInfo에 숫자가 아닌 형식이 있을 경우, 삭제 후 초기화
 	for (let key in timerSetting) {
-		const value = parseInt(timerSetting[key]);
+		const value = Number(timerSetting[key]);
 
 		if (isNaN(value)) {
 			localStorage.removeItem("timer-setting"); // localStorage 정보 삭제

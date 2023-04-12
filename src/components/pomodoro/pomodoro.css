@@ -4,15 +4,6 @@
 @import url("./timer/progress-bar/progressBar.css");
 @import url("./brainwave/brainwave.css");
 
-body {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
-}
-
 .pomodoro__section {
   display: flex;
   justify-content: space-between;

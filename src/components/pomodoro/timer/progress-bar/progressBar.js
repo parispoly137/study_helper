@@ -2,7 +2,6 @@
 const renderProgressBar = (progressValue, maxProgressValue) => {
 	let percentage, progressIndex, angle = 0;
 
-	progressValue += 1;
 	percentage = (progressValue * 100) / maxProgressValue;
 	progressIndex = Math.floor(percentage / 25) - Math.floor(percentage / 100);
 	angle = -90 + (((percentage - (25 * progressIndex)) / 100)) * 360;
