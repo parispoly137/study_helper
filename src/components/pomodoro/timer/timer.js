@@ -104,6 +104,7 @@ const startTimer = () => {
 	// Timer 동작
 	timerId = setInterval(() => {
 		seconds--;
+		progressValue += 1;
 
 		if (seconds < 0) {
 			minutes--;
