@@ -255,26 +255,49 @@ window.addEventListener("storage", () => handleStorageChange(event));
 /**localStorage에서 text를 바꿨을 때 todo input에 수정한 내용을 적용하는 함수 */
 const handleStorageChange = (event) => {
     
-     /* localStorage의 todos에서 text가 변화된 객체를 추적*/
+     /* localStorage의 todos key에서 변화되었는지 확인*/
      if(event.key === "todos") {
-      const oldValue = JSON.parse(event.oldValue);
-      const newValue = JSON.parse(event.newValue);
-    for (let i = 0; i < oldValue.length; i++) {
-        if(oldValue[i].text !== newValue[i].text) {
-            const changedIndex = i;
-            const newValueId = newValue[changedIndex].id.toString();
-            const screenLis = document.querySelectorAll("#todolist__items li");
-            /*localStorage와 아이디가 같은 li를 추적*/
-             for (let i=0; i< screenLis.length; i++) {
-                /*추적한 id를 가진 li의 input에 수정한 내용 적용 */
-                if (screenLis[i].id === newValueId) {
+       const oldValue = JSON.parse(event.oldValue);
+       const newValue = JSON.parse(event.newValue);
+       for (let i = 0; i < oldValue.length; i++) {
+
+            /* text가 변화된 item을 추적 */ 
+            if(oldValue[i].text !== newValue[i].text) {
+                const changedIndex = i;
+                const newValueId = newValue[changedIndex].id.toString();
+                const screenLis = document.querySelectorAll("#todolist__items li");
+                /*변경된 localStorage의 item과 아이디가 같은 li를 추적*/
+                for (let i=0; i< screenLis.length; i++) {
+                    if (screenLis[i].id === newValueId) {
+                    /*추적한 id를 가진 li의 input에 수정한 내용 적용 */
+                    const screenInput = screenLis[i].querySelector(".itemInput");
                     screenInput.value = newValue[changedIndex].text;
+                    const screenInputValue = screenInput.value;
+                    /*text 속성의 다른 부분을 건드리면 삭제되게 적용 */
+                    if (screenInputValue === "undefined") {
+                        deleteToDo(event, screenLis[i]);
+                    }
+                    }
+                }
+            }
+            /* text 이외의 변화된 item을 추적하여 삭제 */
+            else if (JSON.stringify(oldValue[i]) !== JSON.stringify(newValue[i])) { //객체는 다르므로 항상 true가 돼 문자열을 비교함
+                const changedIndex = i;
+                const oldValueId = oldValue[changedIndex].id.toString();
+                const screenLis = document.querySelectorAll("#todolist__items li");
+                /*변경된 localStorage의 item과 아이디가 같은 li를 추적*/
+                for (let i=0; i< screenLis.length; i++) {
+                    if (screenLis[i].id === oldValueId) {
+                    /*추적한 id를 가진 li를 삭제*/
+                    deleteToDo (event, screenLis[i]);
+                    }
                 }
             }
         }
-    }
+
+    
      }
-    }
+}
 
 /**addingToDoInput에서 submit이 발생했을 때 toDos 배열에 value와 localStorage에 toDos를 넣고
  * todo를 형성하는 함수 */
