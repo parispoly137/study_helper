@@ -1,5 +1,8 @@
-@import url("./timer-setting/timer-setting.css");
+@import url("./timer-setting/timerSetting.css");
 @import url("./timer/timer.css");
+@import url("./timer/timer-button/timerButton.css");
+@import url("./timer/progress-bar/progressBar.css");
+@import url("./brainwave/brainwave.css");
 
 body {
   height: 100vh;

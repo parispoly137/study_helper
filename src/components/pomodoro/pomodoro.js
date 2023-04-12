@@ -1,5 +1,6 @@
-import loadTimerSetting from "./timer-setting/timer-setting.js";
+import loadTimerSetting from "./timer-setting/timerSetting.js";
 import loadTimer from "./timer/timer.js";
+import loadBrainwave from "./brainwave/brainwave.js";
 
 const slider = document.querySelector(".pomodoro__slider");
 const sliderBtns = document.querySelectorAll(".pomodoro__arrow");
@@ -43,6 +44,7 @@ function loadPomodoro() {
 	confirmRefresh();
 	loadTimerSetting();
 	loadTimer();
+	loadBrainwave();
 }
 
 loadPomodoro();

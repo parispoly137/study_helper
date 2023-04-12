@@ -1,15 +1,15 @@
-import { getLocalStorage, showElement, hideElement } from "../timer-setting/timer-setting.js";
+import { getLocalStorage, showElement, hideElement } from "../timer-setting/timerSetting.js";
+import { setButtonState, setTimerTextUI, setActionButtonDesign, actionBtn, resetBtn } from "./timer-button/timerButton.js";
+import { renderProgressBar, resetProgressBar } from "./progress-bar/progressBar.js";
 
 const clock = document.querySelector(".timer__clock");
 const session = document.querySelector(".timer__session");
-const [actionBtn, resetBtn] = document.querySelectorAll(".timer__button");
 const prevArrow = document.querySelector(".arrow__prev");
 const audio = document.querySelector(".timer__audio");
 const progressBar = document.querySelector(".timer__progress-bar");
 const progressSpinners = document.querySelectorAll(".loader-spinner");
 
 let timerSettingInfo, minutes, seconds, timerId, currentRepeat;
-
 let progressValue, maxProgressValue;
 
 
@@ -39,35 +39,6 @@ const resetTimer = () => {
 };
 
 
-/** Timer의 텍스트(clock, session) UI 변경 */
-const setTimerTextUI = (textName, targetState) => {
-	const isRest = targetState === "rest";
-
-	textName.classList.toggle("rest", isRest);
-	textName.style.color = isRest ? "white" : "black";
-};
-
-
-/** 현재 시간 진행도에 따른 progress bar 렌더링*/
-const renderProgressBar = () => {
-	let percentage, progressIndex, angle = 0;
-
-	progressValue += 1;
-	percentage = (progressValue * 100) / maxProgressValue;
-	progressIndex = Math.floor(percentage / 25) - Math.floor(percentage / 100);
-	angle = -90 + (((percentage - (25 * progressIndex)) / 100)) * 360;
-
-	// angle 반영하여 progress bar 진행 UI 적용
-	const spinner = document.querySelectorAll(".spinner-holder-two")[progressIndex]; // caching
-	spinner.style.transform = `rotate(${angle}deg)`;
-
-	if (progressIndex !== 0) {
-		const prevSpinner = document.querySelectorAll(".spinner-holder-two")[progressIndex - 1];
-		prevSpinner.style.transform = "rotate(0deg)";
-	}
-};
-
-
 /** 타이머가 00:00일 때의 동작 */
 const handleTimerEnd = () => {
 	const { focus, rest, iteration } = timerSettingInfo;
@@ -86,7 +57,6 @@ const handleTimerEnd = () => {
 		clearInterval(timerId); // 타이머 종료
 
 	} else if (timeEnd) {
-
 		if (!clock.classList.contains("rest")) {
 			// focus에서 timeEnd인 경우
 			minutes = rest;
@@ -143,18 +113,9 @@ const startTimer = () => {
 		// timer clock 텍스트 설정 ... 2자리
 		clock.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-		renderProgressBar();
+		renderProgressBar(progressValue, maxProgressValue);
 		handleTimerEnd();
 	}, 1000);
-};
-
-
-/** action button의 UI 변경 ... (arg: currentText) */
-const setActionButtonDesign = (buttonText) => {
-	const isStart = buttonText === "start";
-
-	actionBtn.textContent = isStart ? "pause" : "start";
-	actionBtn.style.backgroundColor = isStart ? "#ffc56c" : "#00b050";
 };
 
 
@@ -173,28 +134,6 @@ const handleButton = (e) => {
 		setActionButtonDesign(buttonText);
 		setButtonState(resetBtn, "active");
 		clearInterval(timerId); // 타이머 일시정지
-	}
-};
-
-
-/** progress bar를 초기화*/
-const resetProgressBar = () => {
-	const spinners = [...document.querySelectorAll(".spinner-holder-two")];
-	spinners.forEach(spinner => spinner.style.transform = "rotate(90deg)");
-};
-
-
-/** 버튼(action, reset)의 상태 변경 */
-const setButtonState = (buttonName, targetState) => {
-	if (targetState === "disabled") {
-		// button 기능 및 UI 비활성화
-		buttonName.setAttribute("disabled", "disabled");
-		buttonName.classList.add("disabled");
-
-	} else if (targetState === "active") {
-		// button 기능 및 UI 활성화
-		buttonName.removeAttribute("disabled");
-		buttonName.classList.remove("disabled");
 	}
 };
 
