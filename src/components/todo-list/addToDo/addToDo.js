@@ -58,7 +58,7 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
      else {
         itemInput.disabled = false;
         itemInput.focus();
-        itemEditBtnIcon.innerText ="expand_more";
+        itemEditBtnIcon.innerText ="done";
         itemDeleteBtnIcon.innerText = "close";
         itemInput.dataset.previousValue = itemInput.value;
         }}};
@@ -71,7 +71,7 @@ const cancelEdit = (itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon) =>
 
     itemInput.disabled = false;
     itemInput.focus();
-    itemEditBtnIcon.innerText ="expand_more";  
+    itemEditBtnIcon.innerText ="done";  
     itemDeleteBtnIcon.innerText = "close";
     }
 
