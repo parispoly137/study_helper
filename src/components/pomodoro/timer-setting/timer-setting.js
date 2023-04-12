@@ -12,12 +12,12 @@ const resetInput = (event) => {
 
 	// confirm 태그 출력 및 input 태그 숨김
 	settingInputs.forEach((input) => {
-		input.style.display = 'block';
+		showElement(input);
 		input.value = '';
 	});
 
-	nextArrow.style.display = 'none'; // 슬라이드 화살표 비활성화
-	settingConfirms.forEach((confirm) => confirm.style.display = 'none');
+	hideElement(nextArrow); // 슬라이드 화살표 비활성화
+	settingConfirms.forEach((confirm) => hideElement(confirm));
 	localStorage.removeItem('timer-setting'); // 저장된 값 모두 초기화
 
 	// set button 활성화
@@ -54,6 +54,7 @@ const handleSubmit = (event) => {
 	}
 	loadTimer(); // 설정한 값으로 timer 컴포넌트를 다시 로드
 };
+
 
 /** input 입력값 유효성 검사 */
 const validateInput = (event, inputText) => {
@@ -94,22 +95,32 @@ const displayConfirmedValues = (timerSetting) => {
 	const iterationConfirm = settingConfirms[2];
 
 
-	// Timer로 넘어가는 화살표 활성화
-	nextArrow.style.display = 'block';
-
 	// confirm display 태그에 저장된 사용자 입력값 출력
 	focusConfirm.innerText = parseInt(focus);
 	restConfirm.innerText = parseInt(rest);
 	iterationConfirm.innerText = parseInt(iteration);
 
 	// confirm 태그 출력 및 input 태그 숨김
-	settingInputs.forEach((input) => { input.style.display = 'none'; });
-	settingConfirms.forEach((confirm) => { confirm.style.display = 'flex'; });
+	settingInputs.forEach((input) => {
+		hideElement(input);
+	});
+	settingConfirms.forEach((confirm) => showElement(confirm));
 
 	// set button 비활성화 및 관련 css 코드 적용
 	setBtn.setAttribute("disabled", "disabled"); // set button 비활성화
 	setBtn.classList.add("disabled"); // .disabled 클래스 추가
+
+	// Timer로 넘어가는 화살표 활성화
+	showElement(nextArrow);
 };
+
+
+/** CSS를 변경하여 DOM 요소를 보이는 함수 */
+export const showElement = (element) => element.style.display = 'flex';
+
+
+/** CSS를 변경하여 DOM 요소를 숨기는 함수 */
+export const hideElement = (element) => element.style.display = 'none';
 
 
 /** local storage에 저장된 값을 불러오고 리턴 */
@@ -117,7 +128,7 @@ export const getLocalStorage = () => {
 	const timerSettingJSON = localStorage.getItem("timer-setting");
 
 	// Json 데이터에 아무 것도 없을 때 (error)
-	if (timerSettingJSON.trim().length === 0) return;
+	if (!timerSettingJSON || timerSettingJSON.trim().length === 0) return;
 
 	const timerSetting = JSON.parse(timerSettingJSON);
 
@@ -127,7 +138,7 @@ export const getLocalStorage = () => {
 
 		if (isNaN(value)) {
 			localStorage.removeItem("timer-setting"); // localStorage 정보 삭제
-			nextArrow.style.display = 'none'; // Timer로 넘어가는 화살표 비활성화
+			hideElement(nextArrow); // Timer로 넘어가는 화살표 비활성화
 			return;
 		}
 	}
@@ -144,7 +155,7 @@ export default function loadTimerSetting() {
 		// LocalStorage에 timer-setting 데이터가 있으면 실행
 		displayConfirmedValues(savedValue);
 	} else {
-		nextArrow.style.display = 'none'; // 데이터 없으면 slide 비활성화
+		hideElement(nextArrow); // 데이터 없으면 slide 비활성화
 	}
 
 	registerEventListeners();

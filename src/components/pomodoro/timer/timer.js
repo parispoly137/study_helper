@@ -1,4 +1,4 @@
-import { getLocalStorage } from "../timer-setting/timer-setting.js";
+import { getLocalStorage, showElement, hideElement } from "../timer-setting/timer-setting.js";
 
 const clock = document.querySelector(".timer__clock");
 const session = document.querySelector(".timer__session");
@@ -23,8 +23,7 @@ const resetTimer = () => {
 	nowRepeatNum = 1;
 
 	if (actionBtn.classList.contains("disabled")) {
-		prevArrow.style.display = 'block'; // Timer-setting으로 넘어가는 화살표 활성화
-
+		showElement(prevArrow);// Timer-setting으로 넘어가는 화살표 활성화
 		setActionButtonDesign("start");
 		setButtonState(actionBtn, "active");
 
@@ -33,9 +32,9 @@ const resetTimer = () => {
 		setTextState(session, "focus");
 	}
 
-	progressBar.style.display = "block";
 	progressValue = 0; // progress bar 값 초기화
 
+	showElement(progressBar);
 	resetProgressBar();
 	initializeTimer();
 };
@@ -124,8 +123,7 @@ const startTimer = () => {
 			audio.src = `src/res/audio/Finish_sound.mp3`;
 			audio.play();
 
-			progressBar.style.display = "none";
-
+			hideElement(progressBar);
 			clearInterval(timerId); // 타이머 종료
 			setButtonState(actionBtn, "disabled");
 			setButtonState(resetBtn, "active");
@@ -151,7 +149,7 @@ const startTimer = () => {
 				// rest에서 timeEnd인 경우
 				minutes = focus;
 				nowRepeatNum++;
-				progressValue = 0; // progressbar 값 초기화
+				progressValue = 0; // progress bar 값 초기화
 				session.innerText = `${nowRepeatNum} / ${iteration}`;
 
 				// focus 시작 사운드 재생
@@ -161,7 +159,7 @@ const startTimer = () => {
 				setTextState(clock, "focus");
 				setTextState(session, "focus");
 				resetProgressBar();
-				progressSpinners.forEach(spinner => spinner.style.border = "5px solid #00b050");  // progressbar 색상
+				progressSpinners.forEach(spinner => spinner.style.border = "5px solid #00b050");  // progress bar 색상
 			}
 		}
 	}, 1000);
@@ -186,15 +184,13 @@ const setActionButtonDesign = (targetState) => {
 /** 버튼의 UI를 변경하고 타이머 동작 컨트롤 */
 const handleButton = () => {
 	if (actionBtn.innerText === "start") {
-		prevArrow.style.display = 'none'; // Timer-setting으로 넘어가는 화살표 비활성화
-
+		hideElement(prevArrow); // 화살표 비활성화
 		setActionButtonDesign("pause");
 		setButtonState(resetBtn, "disabled");
 		startTimer(); // 타이머 시작
 
 	} else {
-		prevArrow.style.display = 'block'; // Timer-setting으로 넘어가는 화살표 활성화
-
+		showElement(prevArrow); // 화살표 활성화
 		setActionButtonDesign("start");
 		setButtonState(resetBtn, "active");
 		clearInterval(timerId); // 타이머 일시정지
@@ -246,6 +242,7 @@ const initializeTimer = () => {
 	setButtonState(resetBtn, "disabled");
 	resetProgressBar();
 };
+
 
 /** Timer 컴포넌트에서, 저장된 값으로 타이머를 컨트롤한다. */
 export default function loadTimer() {
