@@ -308,6 +308,26 @@ const handleStorageChange = (event) => {
      }
 }
 
+/*window.addEventListener("storage", () => handleStorageChange(event)); */
+itemsForm.addEventListener("scroll", () => {
+    handleItemsFormScroll();})
+
+/**scroll 발생 시에 scrollbabr가 형성되고 이후 1초 뒤 사라지게 하는 함수*/
+const handleItemsFormScroll = () => {
+    let window_scrolling;
+    if(!window_scrolling) {
+        itemsForm.classList.add("show-scrollbar");
+    }
+    
+    clearTimeout(window_scrolling);
+    window_scrolling = setTimeout(() => {
+        window_scrolling = undefined;
+        itemsForm.classList.remove("show-scrollbar");
+    }, 1000);
+};
+
+
+
 /**addingToDoInput에서 submit이 발생했을 때 toDos 배열에 value와 localStorage에 toDos를 넣고
  * todo를 형성하는 함수 */
 const handleSubmit = (event, inputData) =>{
