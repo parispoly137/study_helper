@@ -1,34 +1,50 @@
-import loadSetTimer from "./timer-setting/timer-setting.js";
+import loadTimerSetting from "./timer-setting/timerSetting.js";
 import loadTimer from "./timer/timer.js";
+import loadBrainwave from "./brainwave/brainwave.js";
 
 const slider = document.querySelector(".pomodoro__slider");
 const sliderBtns = document.querySelectorAll(".pomodoro__arrow");
 
-const handleSlide = (e) => {
-	e.preventDefault();
-	sliderBtns.forEach(btn => btn.classList.remove("hidden"));
 
+/** 새로고침 시, 사용자에게 경고창으로 확인 */
+const confirmRefresh = () => {
+	let warningDisplayed = false;
+
+	window.onbeforeunload = function (e) {
+		e.preventDefault();
+
+		// 경고창 중복 출력 방지
+		if (!warningDisplayed) {
+			warningDisplayed = true;
+			return "";
+		}
+	};
+};
+
+
+/** 컴포넌트 전환 (timer-setting ↔ timer) */
+const handleSlide = (e) => {
 	const sliderBtn = e.target;
 
-	// 화살표 버튼에 따른 기능(슬라이더)
+	e.preventDefault();
+	sliderBtns.forEach(btn => btn.classList.remove("hidden")); // visibility 초기화
+
 	if (sliderBtn.classList.contains("arrow__next")) {
-		slider.style.transform = "translate(-500px)";
+		slider.style.transform = "translate(-500px)"; // timer 컴포넌트로 전환
 	} else {
-		slider.style.transform = "translate(0px)";
+		slider.style.transform = "translate(0px)"; // timer-setting 컴포넌트로 전환
 	}
 	sliderBtn.classList.add("hidden");
-
 };
 
-// 화살표 버튼들에 이벤트리스너 할당
-sliderBtns.forEach(btn => btn.addEventListener("click", handleSlide));
+/** pomodoro 초기 시작 함수 */
+function loadPomodoro() {
+	sliderBtns.forEach(btn => btn.addEventListener("click", handleSlide));
 
-// 새로고침 시, 경고창
-window.onbeforeunload = function (e) {
-	e.preventDefault();
-	return "";
-};
+	confirmRefresh();
+	loadTimerSetting();
+	loadTimer();
+	loadBrainwave();
+}
 
-
-loadSetTimer(); // timer-setting 컴포넌트 로드
-loadTimer(); // timer 컴포넌트 로드
+loadPomodoro();

@@ -7,12 +7,11 @@ function handleClick(e) {
 	const button = e.target;
 	const buttonText = button.innerText;
 
-	// active 클래스 초기화
+	// 이전에 선택된 버튼 초기화
 	if (!button.classList.contains("active")) {
 		buttons.forEach((btn) => btn.classList.remove("active"));
 	}
 
-	// 누른 버튼에 active 클래스 토글
 	button.classList.toggle("active");
 
 	// 각 버튼에 맞는 mp3 파일 재생 및 정지
@@ -26,7 +25,7 @@ function handleClick(e) {
 	}
 }
 
-// 각 버튼에 Event Listener 할당
-buttons.forEach((button) => {
-	button.addEventListener("click", handleClick);
-});
+/** Brainwave를 선택할 수 있는 컴포넌트 */
+export default function loadBrainwave() {
+	buttons.forEach((button) => button.addEventListener("click", handleClick));
+}
