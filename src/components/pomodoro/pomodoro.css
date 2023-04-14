@@ -26,6 +26,12 @@
   overflow: hidden;
 }
 
+@media (max-width: 1120px) {
+  .pomodoro__section {
+    background-color: tomato;
+  }
+}
+
 .pomodoro__slide {
   width: 500px;
   height: 100%;
