@@ -21,42 +21,21 @@
 }
 
 /*scroll bar design*/
-@keyframes scrollbar-fadein {
-    from {visibility: hidden;}
-    to {visibility: visible;}
-}
-
-@keyframes scrollbar-fadeout {
-    from {visibility: visible;}
-    to {visibility: hidden;}
-}
 
 .todolist__items-form::-webkit-scrollbar {
-    background-color: rgb(161, 204, 163, 0);
+    background-color: rgb(185, 224, 187);
     border-radius: 6px;
     width: 7px;
     border-radius: 6px;
+
 }
 
 .todolist__items-form::-webkit-scrollbar-thumb {
-    background-color: rgb(104, 168, 104, 0);
+    background-color: rgb(146, 190, 146);
     width: 7px;
     border-radius: 6px;
-}
-.todolist__items-form.show-scrollbar::-webkit-scrollbar {
-    background-color: rgb(161, 204, 163);
-    border-radius: 6px;
-    width: 7px;
-    border-radius: 6px;
-    opacity: 1;
 }
 
-.todolist__items-form.show-scrollbar::-webkit-scrollbar-thumb {
-    background-color: rgb(104, 168, 104);
-    width: 7px;
-    opacity: 1;
-    border-radius: 6px;
-}
 
 
 /* element design */
@@ -112,6 +91,7 @@
     visibility:visible;
     color:rgb(82 142 42);
     font-size: 31px;
+    cursor: pointer;
 }
 
 .itemCheckbox:checked + .itemCheckboxIcon{
