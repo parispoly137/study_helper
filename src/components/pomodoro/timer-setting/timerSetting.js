@@ -6,6 +6,7 @@ const confirmedValues = document.querySelectorAll(".timer-setting__confirm-text"
 const nextArrow = document.querySelector(".arrow__next");
 
 
+
 /** 모든 input의 value를 초기화하는 함수 */
 const resetInput = (event) => {
 	event.preventDefault();
@@ -148,11 +149,9 @@ export const getLocalStorage = () => {
 		const rawValue = timerSetting[key];
 		const value = Number(rawValue);
 
-		console.log(rawValue);
 		const isInvalidValueOrKey = isNaN(value) || !defaultKeys.includes(key); // value가 number가 아니거나, 옳지 않은 key가 존재하는 경우
 		const isInvalidValueFormat = rawValue.charAt(0) === "0" || rawValue.length > 3 || rawValue.trim().length === 0; // 입력 조건 확인
 
-		console.log(isInvalidValueFormat);
 
 		if (isInvalidValueOrKey || isInvalidValueFormat) {
 			removeLocalStorage(); // 데이터 초기화
