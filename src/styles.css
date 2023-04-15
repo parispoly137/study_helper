@@ -4,16 +4,15 @@ body {
   margin: 0 50px;
   height: 100%;
   font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
+  background-image: url("/src/res/imgs/background_03.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -99;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@media (max-width: 576px) {
+  body {
+    margin: 0 20px;
+  }
 }
 
 .main {
@@ -21,15 +20,51 @@ body {
   justify-content: space-around;
   align-items: center;
   margin-top: 50px;
+  padding-bottom: 53px;
+}
+
+@media (max-width: 1120px) {
+  .main {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .main {
+    margin-top: 0px;
+    padding-bottom: 150px;
+  }
 }
 
 .section {
+  width: 500px;
+  aspect-ratio: 1 / 1.5;
+}
+
+@media (max-width: 576px) {
+  .section {
+    width: 300px;
+  }
+}
+
+.todolist__tmp {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 64px;
-  width: 500px;
-  height: 750px;
   background-color: #fff;
   border-radius: 20px;
+}
+
+@media (max-width: 1120px) {
+  .todolist__tmp {
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 576px) {
+  .todolist__tmp {
+    margin-top: 290px;
+  }
 }

@@ -8,10 +8,23 @@
   font-weight: bold;
 }
 
+@media (max-width: 576px) {
+  .timer-setting__input-container {
+    margin-top: 34px;
+    font-size: 14px;
+  }
+}
+
 .timer-setting__input-box {
   display: flex;
   align-items: center;
   margin-right: 20px;
+}
+
+@media (max-width: 576px) {
+  .timer-setting__input-box {
+    margin-right: 0;
+  }
 }
 
 .timer-setting__input {
@@ -27,6 +40,14 @@
   font-weight: bold;
   font-size: 21px;
   text-align: center;
+}
+
+@media (max-width: 576px) {
+  .timer-setting__input {
+    width: 36px;
+    height: 24px;
+    font-size: 14px;
+  }
 }
 
 .timer-setting__input::-webkit-outer-spin-button,
@@ -46,6 +67,14 @@
   font-size: 26px !important;
 }
 
+@media (max-width: 576px) {
+  .timer-setting__confirm-text {
+    width: 50px;
+    height: 24px;
+    font-size: 18px !important;
+  }
+}
+
 .timer-setting__buttons {
   width: 100%;
   display: flex;
@@ -63,6 +92,15 @@
   box-shadow: var(--button-shadow);
   -webkit-box-shadow: var(--button-shadow);
   -moz-box-shadow: var(--button-shadow);
+}
+
+@media (max-width: 576px) {
+  .timer-setting__button {
+    width: 78px;
+    height: 33px;
+    margin-top: 40px;
+    font-size: 24px;
+  }
 }
 
 .timer-setting__button:first-of-type {

@@ -7,16 +7,29 @@
   align-items: center;
   flex-direction: column;
   width: inherit;
-  height: 190px;
+  aspect-ratio: 1 / 0.38;
   border-radius: 30px;
   background-color: #d7d7d7;
   padding: 20px;
   z-index: 1;
+  margin-top: 20px;
+}
+
+@media (max-width: 576px) {
+  .brainwave {
+    padding: 8px 15px;
+  }
 }
 
 .brainwave__title {
   font-size: 24px;
   font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .brainwave__title {
+    font-size: 18px;
+  }
 }
 
 .brainwave__buttons {
@@ -31,6 +44,13 @@
   overflow: hidden;
   position: relative;
   padding: 30px 20px;
+}
+
+@media (max-width: 576px) {
+  .brainwave__buttons {
+    height: 65px;
+    padding: 15px;
+  }
 }
 
 .brainwave__img {
@@ -50,6 +70,12 @@
   box-shadow: var(--button-shadow);
   -webkit-box-shadow: var(--button-shadow);
   -moz-box-shadow: var(--button-shadow);
+}
+
+@media (max-width: 576px) {
+  .brainwave__button {
+    font-size: 22px;
+  }
 }
 
 .brainwave__button.active {

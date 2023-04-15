@@ -6,6 +6,7 @@ const confirmedValues = document.querySelectorAll(".timer-setting__confirm-text"
 const nextArrow = document.querySelector(".arrow__next");
 
 
+
 /** 모든 input의 value를 초기화하는 함수 */
 const resetInput = (event) => {
 	event.preventDefault();
@@ -117,25 +118,47 @@ export const showElement = (element) => element.style.display = 'flex';
 export const hideElement = (element) => element.style.display = 'none';
 
 
+/** Local Storage의 timer-setting 데이터 삭제 */
+const removeLocalStorage = () => {
+	localStorage.removeItem("timer-setting"); // localStorage 정보 삭제
+	hideElement(nextArrow); // Timer로 넘어가는 화살표 비활성화
+	console.log("Invalid data");
+};
+
+
 /** local storage에 저장된 값을 불러오고 리턴 */
 export const getLocalStorage = () => {
 	const timerSettingJSON = localStorage.getItem("timer-setting");
+	let timerSetting = {};
 
 	// Json 데이터에 아무 것도 없을 때 (error)
 	if (!timerSettingJSON || timerSettingJSON.trim().length === 0) return;
 
-	const timerSetting = JSON.parse(timerSettingJSON);
-	// timerInfo에 숫자가 아닌 형식이 있을 경우, 삭제 후 초기화
-	for (let key in timerSetting) {
-		const value = Number(timerSetting[key]);
+	try {
+		timerSetting = JSON.parse(timerSettingJSON);
+	} catch (error) {
+		console.log("Invalid data");
+		removeLocalStorage();
+	}
 
-		if (isNaN(value)) {
-			localStorage.removeItem("timer-setting"); // localStorage 정보 삭제
-			hideElement(nextArrow); // Timer로 넘어가는 화살표 비활성화
+	const defaultKeys = ["focus", "rest", "iteration"];
+
+
+	// 데이터 유효성 검증
+	for (let key in timerSetting) {
+		const rawValue = timerSetting[key];
+		const value = Number(rawValue);
+
+		const isInvalidValueOrKey = isNaN(value) || !defaultKeys.includes(key); // value가 number가 아니거나, 옳지 않은 key가 존재하는 경우
+		const isInvalidValueFormat = rawValue.charAt(0) === "0" || rawValue.length > 3 || rawValue.trim().length === 0; // 입력 조건 확인
+
+
+		if (isInvalidValueOrKey || isInvalidValueFormat) {
+			removeLocalStorage(); // 데이터 초기화
 			return;
 		}
-	}
-	return timerSetting;
+		return timerSetting;
+	};
 };
 
 
