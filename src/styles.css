@@ -4,7 +4,7 @@ body {
   margin: 0 50px;
   height: 100%;
   font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
-  background-image: url("/src/res/imgs/background_03.jpg");
+  background-image: url("/src/res/imgs/background_01.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
