@@ -50,7 +50,7 @@
   flex-direction: column;
   padding: 25px 50px;
   border-radius: 10%;
-  background-image: url("../../res/imgs/decoration_04.jpg");
+  background-image: url("/src/res/imgs/pomodoro-bg_1.jpg");
   position: relative;
   z-index: 0;
 }

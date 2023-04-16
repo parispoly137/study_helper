@@ -27,7 +27,7 @@
 }
 
 .timer__button:first-of-type {
-  background-color: var(--third-theme-color);
+  background-color: var(--initial-main-color);
 }
 
 .timer__button:last-of-type {
