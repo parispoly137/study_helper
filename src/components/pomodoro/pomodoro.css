@@ -8,9 +8,20 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  width: 500px;
-  height: 750px;
+
   position: relative;
+}
+
+@media (max-width: 1120px) {
+  .pomodoro__section {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .pomodoro__section {
+    height: 510px;
+  }
 }
 
 .pomodoro {
@@ -21,9 +32,15 @@
   display: flex;
   align-items: center;
   width: 1000px;
-  height: 530px;
+  aspect-ratio: 1 / 0.53;
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 576px) {
+  .pomodoro__slider {
+    width: 600px;
+  }
 }
 
 .pomodoro__slide {
@@ -32,18 +49,32 @@
   display: flex;
   flex-direction: column;
   padding: 25px 50px;
-  border-radius: 70px;
-  background-image: url("../../res/imgs/decoration_04.jpg");
+  border-radius: 10%;
+  background-image: url("/src/res/imgs/pomodoro-bg_1.jpg");
   position: relative;
   z-index: 0;
 }
 
+@media (max-width: 576px) {
+  .pomodoro__slide {
+    width: 300px;
+    padding: 20px 30px;
+  }
+}
+
 .pomodoro__arrow {
   position: absolute;
-  top: 250px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   font-size: 48px !important;
   color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 576px) {
+  .pomodoro__arrow {
+    font-size: 24px !important;
+  }
 }
 
 .pomodoro__arrow:hover {
@@ -51,7 +82,13 @@
 }
 
 .arrow__next {
-  right: 0px;
+  right: 0%;
+}
+
+@media (max-width: 576px) {
+  .arrow__next {
+    right: -5px;
+  }
 }
 
 .arrow__prev {
@@ -64,6 +101,19 @@
   text-align: center;
 }
 
+@media (max-width: 576px) {
+  .pomodoro__title {
+    font-size: 22px;
+  }
+}
+
 .hidden {
   visibility: hidden;
+}
+
+.disabled {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  cursor: default;
 }

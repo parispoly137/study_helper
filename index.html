@@ -12,18 +12,22 @@
     <link rel="stylesheet" href="src/variables.css" />
     <link rel="stylesheet" href="src/styles.css" />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
-    <script type="module" src="src/components/pomodoro/pomodoro.js"></script>
+    <script
+      defer
+      type="module"
+      src="src/components/pomodoro/pomodoro.js"
+    ></script>
+    <script defer type="module" src="src/utils/changeTheme.js"></script>
     <title>Study helper</title>
   </head>
   <body>
-    <img class="background" src="src/res/imgs/background_03.jpg" />
     <header class="header">
       <h1 class="header__title">Study helper</h1>
       <button class="header__btn-theme header__btn">Change theme</button>
       <button class="header__btn-help header__btn">?</button>
     </header>
     <main class="main">
-      <div class="pomodoro__section">
+      <div class="pomodoro__section section">
         <div class="pomodoro">
           <div class="pomodoro__slider">
             <!-- Pomodoro__Timer-setting -->
@@ -118,7 +122,7 @@
         <div class="brainwave">
           <h3 class="brainwave__title">Brainwave</h3>
           <div class="brainwave__buttons">
-            <img class="brainwave__img" src="src/res/imgs/decoration_03.jpg" />
+            <img class="brainwave__img" src="src/res/imgs/brainwave-bg.jpg" />
             <audio class="brainwave__audio"></audio>
             <button class="brainwave__button">Alpha</button>
             <button class="brainwave__button">Beta</button>
