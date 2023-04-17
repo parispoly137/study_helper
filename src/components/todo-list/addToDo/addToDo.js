@@ -33,7 +33,6 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
     /*event가 실행되는 input과 focus된 input이 동일하거나 focus가 된 요소가 없을 경우 실행 */
     else {
      if (!itemInput.disabled) {
-        itemInput.disabled = true;
         itemEditBtnIcon.innerText ="edit";  
         itemDeleteBtnIcon.innerText = "delete";
         
@@ -52,6 +51,7 @@ const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         itemInput.value = toDoInputValue;
         toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
+        itemInput.disabled = true;
         }}
 
         /*x 버튼을 눌렀을 때 이전값으로 돌아가게 해줌*/
@@ -76,12 +76,13 @@ const cancelEdit = (itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon) =>
     }
 
 
+
 /** Endter를 통해서도 todo input에 내용을 저장할 수 있게 만들어주는 함수*/
 const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
 
     if (event.key === "Enter") {
         event.preventDefault();
-        itemInput.disabled = true;
+       
         itemEditBtnIcon.innerText ="edit";  
         itemDeleteBtnIcon.innerText = "delete";
         /*toDos 배열에서 li.id로 해당 객체를 찾아 li 내부의 input 값의 value로 수정하기*/
@@ -99,6 +100,7 @@ const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         itemInput.value = toDoInputValue;
         toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
+        itemInput.disabled = true;
         }}
     }
 
@@ -108,15 +110,6 @@ itemsForm.addEventListener("keydown", function(event) {
             event.preventDefault();
         };
     });
-
-
-
-/**todo input이 focus된 상태에서 focusout이 시도될 경우 막아주는 함수 */
-const handleInputFocusout = (event, itemInput) => {
-    event.preventDefault();
-    itemInput.focus();
-    
-}
 
 
 /**Delete button을 눌렀을 때 이전 값으로 돌아가게 하거나 todo item을 지워주는 함수*/
@@ -235,8 +228,8 @@ const paintToDo = (newTodo) =>{
     })
     itemInput.addEventListener("keyup", () => {
         handleEditBtnEnter(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon)});
-    itemInput.addEventListener("focusout", () => {
-        handleInputFocusout(event, itemInput)
+   itemInput.addEventListener("blur", () => {
+        handleInputBlur(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
     });
     itemDeleteBtn.addEventListener("click", () => {
         handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);});
@@ -246,9 +239,24 @@ const paintToDo = (newTodo) =>{
     itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
     itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));  
 
+}
 
-  
-    
+/*todo Input을 수정할 때 focusout event 발생 시 작성된 내용 저장 후 비활성화*/
+const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+    event.preventDefault();
+   
+    itemEditBtnIcon.innerText = "edit"
+    itemDeleteBtnIcon.innerText = "delete";
+    itemInput.disabled = true;
+
+        /*event가 발생한 li.id로 ls의 해당 객체를 찾아 ls를 input 값의 value로 수정하기*/
+        const toDoLi = event.target.closest("li");
+        const toDoLiId= toDoLi.id;
+        const toDoInput = toDoLi.querySelector(".itemInput");
+        const toDoInputValue = toDoInput.value.trim();
+        const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        toDos[toDoIndex].text = toDoInputValue;
+        saveToDos();
 }
 
 
@@ -267,18 +275,18 @@ const handleStorageChange = (event) => {
             if(oldValue[i].text !== newValue[i].text) {
                 const changedIndex = i;
                 const newValueId = newValue[changedIndex].id.toString();
-                const screenLis = document.querySelectorAll("#todolist__items li");
+                const toDoLists = document.querySelectorAll("#todolist__items li"); 
                 /*변경된 localStorage의 item과 아이디가 같은 li를 추적*/
-                for (let i=0; i< screenLis.length; i++) {
-                    if (screenLis[i].id === newValueId) {
+                for (let i=0; i< toDoLists.length; i++) {
+                    if (toDoLists[i].id === newValueId) {
                     /*추적한 id를 가진 li의 input에 수정한 내용 적용 */
-                    const screenInput = screenLis[i].querySelector(".itemInput");
+                    const screenInput = toDoLists[i].querySelector(".itemInput");
                     let newItemValue = newValue[changedIndex].text;
                     screenInput.value = newItemValue.trim();
                     const screenInputValue = screenInput.value;
                         /*ls에서 text 속성의 다른 부분을 건드리면 삭제되게 적용 */
                         if (screenInputValue === "undefined") {
-                        deleteToDo(event, screenLis[i]);
+                        deleteToDo(event, toDoLists[i]);
                          }
                          /*ls에서 text 앞뒤에 빈칸이 있을 경우 trim() 적용 */
                         else if (newItemValue.startsWith("") || newItemValue.endsWith("")) {
@@ -293,12 +301,12 @@ const handleStorageChange = (event) => {
             else if (JSON.stringify(oldValue[i]) !== JSON.stringify(newValue[i])) { //객체는 다르므로 항상 true가 돼 문자열을 비교함
                 const changedIndex = i;
                 const oldValueId = oldValue[changedIndex].id.toString();
-                const screenLis = document.querySelectorAll("#todolist__items li");
+                const toDoLists = document.querySelectorAll("#todolist__items li");
                 /*변경된 localStorage의 item과 아이디가 같은 li를 추적*/
-                for (let i=0; i< screenLis.length; i++) {
-                    if (screenLis[i].id === oldValueId) {
+                for (let i=0; i< toDoLists.length; i++) {
+                    if (toDoLists[i].id === oldValueId) {
                     /*추적한 id를 가진 li를 삭제*/
-                    deleteToDo (event, screenLis[i]);
+                    deleteToDo (event, toDoLists[i]);
                     }
                 }
             }
@@ -328,14 +336,6 @@ const handleSubmit = (event, inputData) =>{
 };
 
 
-/**글자수를 제한하는 함수 */
-const handleCharacterCount = (event, addingToDoInput) => {
-    if (event.key === "Enter") {
-        const addToDoValue = addingToDoInput.value.trim();//tirm: 띄어쓰기한 부분 제외
-        handleCharacterCountAlert(addToDoValue);
-        return true;
-    }}
-
 /**글자수가 만족되지 않을 시 경고해주는 함수 */
 const handleCharacterCountAlert = (event) => {
     if (event.length === 0) {//입력한 값이 빈칸일 경우 addTodo 실행 x
@@ -345,11 +345,11 @@ const handleCharacterCountAlert = (event) => {
 
 
 addingToDoForm.addEventListener("submit", (event) => handleSubmit(event, addingToDoInput));
-addingToDoInput.addEventListener("keypress", (event) => handleCharacterCount(event, addingToDoInput));
+
 
 
 /**toDos를 getItem을 이용해 localStorage에서 꺼내서 저장한 변수 */
-const savedToDos = localStorage.getItem(TODOS_KEY); //저장된 todo를 가져오는거므로 getItem
+const savedToDos = localStorage.getItem(TODOS_KEY);
 
 if (savedToDos !== null) {
     const parsedToDos = JSON.parse(savedToDos);
