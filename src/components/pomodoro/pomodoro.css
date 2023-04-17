@@ -110,3 +110,10 @@
 .hidden {
   visibility: hidden;
 }
+
+.disabled {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  cursor: default;
+}
