@@ -61,7 +61,7 @@
   width: 200%;
   height: 200%;
   border-radius: 50%;
-  border: 5px solid var(--third-theme-color);
+  border: 5px solid var(--initial-main-color);
   box-sizing: border-box;
 }
 .animate-0-25-a {

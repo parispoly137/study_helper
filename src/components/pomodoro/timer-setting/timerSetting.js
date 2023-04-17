@@ -1,4 +1,5 @@
 import loadTimer from "../timer/timer.js";
+import { changeColorSnippet } from "/src/utils/changeTheme.js";
 
 const timerSettingInputs = document.querySelectorAll(".timer-setting__input");
 const [setBtn, resetBtn] = document.querySelectorAll(".timer-setting__button");
@@ -8,7 +9,7 @@ const nextArrow = document.querySelector(".arrow__next");
 
 
 /** 모든 input의 value를 초기화하는 함수 */
-const resetInput = (event) => {
+const handleResetBtn = (event) => {
 	event.preventDefault();
 
 	// confirm 태그 출력 및 input 태그 숨김
@@ -25,6 +26,8 @@ const resetInput = (event) => {
 	setBtn.classList.remove("disabled");
 
 	hideElement(nextArrow); // 슬라이드 화살표 비활성화
+
+	changeColorSnippet(setBtn, "backgroundColor", "main"); // resetBtn 클릭 시 setBtn 활성화 UI
 };
 
 
@@ -36,7 +39,7 @@ const setLocalStorage = (timerSetting) => {
 
 
 /** 입력값 제출 - 입력값을 localStorage에 저장하고 출력 */
-const handleSubmit = (event) => {
+const handleSetBtn = (event) => {
 	event.preventDefault();
 
 	const inputs = [...timerSettingInputs]; // input tags
@@ -50,6 +53,8 @@ const handleSubmit = (event) => {
 	} else {
 		alert("Please enter the input values correctly as numbers.");
 	}
+
+	setBtn.style.backgroundColor = "#9e9e9e"; // 데이터 저장 후 setBtn 비활성화 UI
 };
 
 
@@ -78,8 +83,8 @@ const registerEventListeners = () => {
 		});
 	});
 
-	setBtn.addEventListener("click", handleSubmit);
-	resetBtn.addEventListener("click", resetInput);
+	setBtn.addEventListener("click", handleSetBtn);
+	resetBtn.addEventListener("click", handleResetBtn);
 };
 
 
@@ -172,6 +177,11 @@ export default function loadTimerSetting() {
 		displayConfirmedValues(savedValue);
 	} else {
 		hideElement(nextArrow); // 데이터 없으면 slide 비활성화
+	}
+
+	// 데이터가 있으면 set 버튼 비활성화 UI 적용
+	if (setBtn.classList.contains("disabled")) {
+		setBtn.style.backgroundColor = "#9e9e9e";
 	}
 
 	registerEventListeners();

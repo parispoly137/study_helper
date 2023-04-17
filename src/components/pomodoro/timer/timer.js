@@ -1,6 +1,7 @@
 import { getLocalStorage, showElement, hideElement } from "../timer-setting/timerSetting.js";
 import { setButtonState, setTimerTextUI, setActionButtonDesign, actionBtn, resetBtn } from "./timer-button/timerButton.js";
 import { renderProgressBar, resetProgressBar } from "./progress-bar/progressBar.js";
+import { changeColorSnippet } from "/src/utils/changeTheme.js";
 
 const clock = document.querySelector(".timer__clock");
 const session = document.querySelector(".timer__session");
@@ -14,24 +15,33 @@ let progressValue, maxProgressValue;
 
 
 /** 타이머 리셋 */
-const resetTimer = () => {
+const handleResetBtn = () => {
 	// 타이머 관련 변수 초기화
 	minutes = 0;
 	seconds = 0;
 	timerId = null;
 	currentRepeat = 1;
 
+	// Action 버튼 활성화
 	if (actionBtn.classList.contains("disabled")) {
 		showElement(prevArrow);// Timer-setting으로 넘어가는 화살표 활성화
 		setActionButtonDesign("pause"); // pause에서 start로 변경
 		setButtonState(actionBtn, "active");
 
-	} else if (clock.classList.contains("rest")) {
+	}
+
+	// clock text를 rest에서 focus 모드로 변환
+	if (clock.classList.contains("rest")) {
+
 		setTimerTextUI(clock, "focus");
 		setTimerTextUI(session, "focus");
 	}
 
 	progressValue = 0; // progress bar 값 초기화
+
+	// 종료 시 버튼 UI
+	resetBtn.style.backgroundColor = "#9e9e9e";
+	changeColorSnippet(actionBtn, "backgroundColor", "main");
 
 	showElement(progressBar);
 	resetProgressBar();
@@ -55,6 +65,10 @@ const handleTimerEnd = () => {
 		setButtonState(actionBtn, "disabled");
 		setButtonState(resetBtn, "active");
 		clearInterval(timerId); // 타이머 종료
+
+		// 종료 시 버튼 UI
+		actionBtn.style.backgroundColor = "#9e9e9e";
+		changeColorSnippet(resetBtn, "backgroundColor", "sub");
 
 	} else if (timeEnd) {
 		if (!clock.classList.contains("rest")) {
@@ -83,7 +97,7 @@ const handleTimerEnd = () => {
 			audio.src = `src/res/audio/Start_sound.mp3`;
 			audio.play();
 
-			progressSpinners.forEach(spinner => spinner.style.border = "5px solid #00b050");  // progress bar 색상
+			progressSpinners.forEach(spinner => changeColorSnippet(spinner, "border-color", "main"));  // progress bar 색상
 
 			setTimerTextUI(clock, "focus");
 			setTimerTextUI(session, "focus");
@@ -121,20 +135,26 @@ const startTimer = () => {
 
 
 /** 버튼의 UI를 변경하고 타이머 동작 컨트롤 */
-const handleButton = (e) => {
+const handleActionBtn = (e) => {
 	const buttonText = e.target.textContent;
 
 	if (buttonText === "start") {
+		// action ~ start 버튼을 누른 경우
 		hideElement(prevArrow); // 화살표 비활성화
 		setActionButtonDesign(buttonText);
 		setButtonState(resetBtn, "disabled");
 		startTimer(); // 타이머 시작
 
 	} else {
+		// action ~ pause 버튼을 누른 경우
 		showElement(prevArrow); // 화살표 활성화
 		setActionButtonDesign(buttonText);
 		setButtonState(resetBtn, "active");
 		clearInterval(timerId); // 타이머 일시정지
+
+		// 일시정지 상태 버튼 활성화 UI
+		changeColorSnippet(actionBtn, "backgroundColor", "main");
+		changeColorSnippet(resetBtn, "backgroundColor", "sub");
 	}
 };
 
@@ -169,7 +189,12 @@ export default function loadTimer() {
 		initializeTimer(); // 초기화
 	}
 
+	// 초기 상태 resetBtn 비활성화 UI
+	if (resetBtn.classList.contains("disabled")) {
+		resetBtn.style.backgroundColor = "#9e9e9e";
+	}
+
 	// 버튼(start, pause / reset)에 click 이벤트 할당
-	actionBtn.addEventListener("click", handleButton);
-	resetBtn.addEventListener("click", resetTimer);
+	actionBtn.addEventListener("click", handleActionBtn);
+	resetBtn.addEventListener("click", handleResetBtn);
 }

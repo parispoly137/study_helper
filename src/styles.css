@@ -4,7 +4,7 @@ body {
   margin: 0 50px;
   height: 100%;
   font-family: "Times New Roman", Times, Arial, Helvetica, sans-serif;
-  background-image: url("/src/res/imgs/background_03.jpg");
+  background-image: url("/src/res/imgs/main-bg_1.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -48,23 +48,23 @@ body {
   }
 }
 
-.todolist__tmp {
+.todolist {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 64px;
-  background-color: #fff;
+  background-image: url("/src/res/imgs/todolist-bg_1.jpg");
   border-radius: 20px;
 }
 
 @media (max-width: 1120px) {
-  .todolist__tmp {
+  .todolist {
     margin-top: 100px;
   }
 }
 
 @media (max-width: 576px) {
-  .todolist__tmp {
+  .todolist {
     margin-top: 290px;
   }
 }
