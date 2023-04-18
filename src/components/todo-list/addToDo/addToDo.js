@@ -87,19 +87,26 @@ const handleStorageChange = (event) => {
 /*todo Input을 수정할 때 focusout event 발생 시 작성된 내용 저장 후 비활성화*/
 const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();
-   
+    const toDoLi = event.target.closest("li");
+    const toDoLiId= toDoLi.id;
+    const toDoInput = toDoLi.querySelector(".itemInput");
+    const toDoInputValue = toDoInput.value.trim();
+    const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+    
+    if (itemInput.value==false){
+        alert("내용을 입력해주세요.")
+        cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
+    }
+    else {
     itemEditBtnIcon.innerText = "edit"
     itemDeleteBtnIcon.innerText = "delete";
     itemInput.disabled = true;
 
         /*event가 발생한 li.id로 ls의 해당 객체를 찾아 ls를 input 값의 value로 수정하기*/
-        const toDoLi = event.target.closest("li");
-        const toDoLiId= toDoLi.id;
-        const toDoInput = toDoLi.querySelector(".itemInput");
-        const toDoInputValue = toDoInput.value.trim();
-        const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
+        
         toDos[toDoIndex].text = toDoInputValue;
         saveToDos();
+    }
 }
 
 /**edit button 클릭을 통해 todo input 수정 활성화 및 적용하는 함수 */
