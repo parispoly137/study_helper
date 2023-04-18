@@ -2,6 +2,12 @@
 @import url("toDoItems/toDoItems.css");
 
 /* code */
+
+::selection {
+  background-color: rgb(146, 180, 146);
+  color:white;
+}
+
 body {
   height: 100vh;
   display: flex;
@@ -11,7 +17,7 @@ body {
 }
 
 .todolist {
-  background-image: url("../../res/imgs/decoration_01_green.jpg");
+  background-image: url('../../res/imgs/decoration_05.jpg');
   background-size: cover;
   background-position: center center;
 }
