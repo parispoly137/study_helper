@@ -51,10 +51,6 @@
     background-color: transparent; 
 }
 
-.itemDiv--checked {
-    background-color: rgb(192, 208, 181);
-}
-
 
 /*checkbox      */
 .itemCheckboxLabel{
@@ -74,9 +70,6 @@
     box-shadow:  2px 2px 7px gray;
 }
 
-.itemCheckbox:checked{
-    visibility: hidden;
-}
 
 .itemCheckboxIcon{
     display: flex;
@@ -85,22 +78,7 @@
     top: 1px;
     visibility: hidden;
 }
-.itemCheckbox:not(:checked) + .itemCheckboxIcon--hover{
-    display: flex;
-    position:absolute;
-    visibility:visible;
-    color:rgb(82 142 42);
-    font-size: 31px;
-    cursor: pointer;
-}
 
-.itemCheckbox:checked + .itemCheckboxIcon{
-    display: flex;
-    visibility:visible;
-    color:rgb(82 142 42);
-    font-size: 31px;
-    user-select: none;
-}
 
 .itemInput {
     width: 80%;
@@ -117,9 +95,6 @@
     outline-color:rgb(7, 138, 7);
 }
 
-.itemInput--checked {
-    color:rgb(117, 116, 116)
-}
 
 
 .itemBtn--edit,.itemBtn--delete {

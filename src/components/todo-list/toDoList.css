@@ -1,5 +1,7 @@
-@import url("mainInput/addToDo.css");
+@import url("mainInput/mainInput.css");
 @import url("toDoItems/toDoItems.css");
+@import url("toDoItems/toDoHandlers/checkToDo/checkToDo.css");
+@import url("toDoItems/toDoHandlers/editToDo/editToDo.css");
 
 /* code */
 
@@ -20,4 +22,20 @@ body {
   background-image: url('../../res/imgs/decoration_05.jpg');
   background-size: cover;
   background-position: center center;
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  height: 750px;
+  background-color: #fff;
+  border-radius: 70px;
+}
+
+.todolist__title {
+  margin-top: 20px;
+  font-family:'Times New Roman', Times, serif;
+  color: rgb(38, 38, 38);
+  font-size: 30px;
+  font-weight: 600;
 }
