@@ -1,0 +1,26 @@
+.itemDiv--checked {
+    background-color: rgb(192, 208, 181);
+}
+
+.itemCheckbox:checked{
+    visibility: hidden;
+}
+.itemCheckbox:not(:checked) + .itemCheckboxIcon--hover{
+    display: flex;
+    position:absolute;
+    visibility:visible;
+    color:rgb(82 142 42);
+    font-size: 31px;
+    cursor: pointer;
+}
+
+.itemCheckbox:checked + .itemCheckboxIcon{
+    display: flex;
+    visibility:visible;
+    color:rgb(82 142 42);
+    font-size: 31px;
+    user-select: none;
+}
+.itemInput--checked {
+    color:rgb(117, 116, 116)
+}

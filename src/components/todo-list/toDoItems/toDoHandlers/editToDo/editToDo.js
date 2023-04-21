@@ -1,6 +1,7 @@
+import { toDos, saveToDos } from "../../../toDoList.js";
 
 /**todo Input을 수정할 때 focusout event 발생 시 작성된 내용 저장 후 비활성화*/
-const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+export const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();
     const toDoLi = event.target.closest("li");
     const toDoLiId= toDoLi.id;
@@ -25,7 +26,7 @@ const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) =
 }
 
 /**edit button 클릭을 통해 todo input 수정 활성화 및 적용하는 함수 */
-const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+export const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();  
     const eventItemInput = event.target.parentElement.previousElementSibling;
     const focusedInput = document.querySelector(":focus");
@@ -83,7 +84,7 @@ const cancelEdit = (itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon) =>
 
 
 /** Endter를 통해서도 todo input에 내용을 저장할 수 있게 만들어주는 함수*/
-const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
+export const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
 
     if (event.key === "Enter") {
         event.preventDefault();
@@ -110,9 +111,4 @@ const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon
         }}
     }
 
-    //enter 입력 시 error를 방지하기 위해 todo item의 submit을 방지
-itemsForm.addEventListener("keydown", function(event) {
-        if(event.keyCode === 13) {
-            event.preventDefault();
-        };
-    });
+

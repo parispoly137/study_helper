@@ -1,8 +1,8 @@
-
-window.addEventListener("storage", () => handleStorageChange(event)); 
+import { TODOS_KEY } from "../../../toDoList.js";
+import { deleteToDo } from "../deleteToDo/deleteToDo.js";
 
 /**localStorage에서 text를 바꿨을 때 todo input에 수정한 내용을 적용하는 함수 */
-const handleStorageChange = (event) => {
+export const handleStorageChange = (event) => {
 
      /* localStorage의 todos key에서 변화되었는지 확인*/
      if(event.key === "todos") {
@@ -10,7 +10,6 @@ const handleStorageChange = (event) => {
        const newValue = event.newValue; 
        const parsedOldValue = JSON.parse(oldValue);
        const parsedNewValue = JSON.parse(newValue);
-       console.log(event.storageArea);
        for (let i = 0; i < parsedOldValue.length; i++) {
             /* text가 변화된 item을 추적 */ 
             if(parsedOldValue[i].text !== parsedNewValue[i].text) {
@@ -28,7 +27,6 @@ const handleStorageChange = (event) => {
                         /*ls에서 text 속성의 다른 부분을 건드리면 삭제되게 적용 */
                         if (screenInputValue === "undefined") {
                             deleteToDo(event, toDoLists[j]);
-                            console.log(screenInputValue);
                          }
                          /*ls에서 text 앞뒤에 빈칸이 있을 경우 trim() 적용 */
                         else if (newItemValue.startsWith("") || newItemValue.endsWith("")) {
@@ -44,7 +42,6 @@ const handleStorageChange = (event) => {
             else if(oldValue !== newValue) {
 
              if ((JSON.stringify(parsedOldValue[i]))!== (JSON.stringify(parsedNewValue[i]))) { //객체는 다르므로 항상 true가 돼 문자열을 비교함
-                console.log(JSON.stringify(parsedOldValue[i]));
                 const changedIndex = i;
                 const oldValueId = parsedOldValue[changedIndex].id.toString();
                 const toDoLists = document.querySelectorAll("#todolist__items li");

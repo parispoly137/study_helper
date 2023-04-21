@@ -1,7 +1,18 @@
+import { toDos, saveToDos} from "../toDoList.js";
+import { createToDoContainer } from "../toDoItems/toDoItems.js";
+
+/** todo를 화면에 그려주는 함수 */
+export const paintToDo = (newTodo) =>{
+    const newItem = document.createElement("li");
+    newItem.id =newTodo.id;
+    createToDoContainer(newTodo, newItem);
+
+}
+
 /**addingToDoInput에서 submit이 발생했을 때 toDos 배열에 value와 localStorage에 toDos를 넣고
  * todo를 형성하는 함수 */
-const handleSubmit = (event, inputData) =>{
-    event.preventDefault();
+export const handleSubmit = (e, inputData) =>{
+    e.preventDefault();
     if (inputData.value==false){
         alert("내용을 입력해주세요.")
     }
@@ -13,107 +24,11 @@ const handleSubmit = (event, inputData) =>{
         id: Date.now(),
     }
     toDos.push(newToDoObj); //toDos 배열에 newTodoObj를 push 함
-    paintToDo(newToDoObj);
+    paintToDo(newToDoObj, toDos);
     saveToDos();
     }
 };
 
-addingToDoForm.addEventListener("submit", (event) => handleSubmit(event, addingToDoInput));
 
 
-/** todo를 화면에 그려주는 함수 */
-const paintToDo = (newTodo) =>{
-    const newItem = document.createElement("li");
-    newItem.id =newTodo.id;
-    createToDoContainer(newTodo, newItem);
 
-}
-
-
-/** checkbox를 생성하는 함수 */
-const createToDoCheckbox = (newTodo, newItem, itemDiv, itemInput) => {
-    const itemCheckboxLabel = document.createElement("label");
-    itemCheckboxLabel.classList.add("itemCheckboxLabel");
-
-    const itemCheckbox = document.createElement("input");
-    itemCheckbox.type = "checkbox";
-    itemCheckbox.setAttribute("id", "itemCheckboxId");
-    itemCheckbox.classList.add("itemCheckbox");
-
-    const itemCheckboxIcon = document.createElement("span");
-    itemCheckboxIcon.classList.add("material-symbols-outlined", "itemCheckboxIcon");
-    itemCheckboxIcon.innerText ="done";
-
-    itemCheckboxLabel.appendChild(itemCheckbox);
-    itemCheckboxLabel.appendChild(itemCheckboxIcon);
-    newItem.appendChild(itemCheckboxLabel);
-
-
-    if (newTodo.checked) {
-        itemDiv.classList.add("itemDiv--checked");
-        itemInput.classList.add("itemInput--checked");
-        itemCheckbox.checked = true;
-    }
-
-    itemCheckbox.addEventListener("change", () => {
-        handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);
-   })
-    itemCheckboxLabel.addEventListener("mouseenter", ()=> handleMouseHover(itemCheckboxIcon, true));
-    itemCheckboxLabel.addEventListener("mouseleave", ()=> handleMouseHover(itemCheckboxIcon, false));  
-}
-
-/**todo의 input과 btn이 담긴 div를 생성해주는 함수 */
-const createToDoContainer = (newTodo, newItem) => {
-
-    const itemDiv = document.createElement("div");
-    itemDiv.classList.add("itemDiv");
-
-    const itemInput = document.createElement("input");
-    itemInput.type = "text";
-    itemInput.disabled = true;
-    itemInput.value = newTodo.text;
-    itemInput.classList.add("itemInput");
-    itemInput.minLength = "1";
-    itemInput.maxLength = "23";
-    itemInput.required = "true"
-
-    const itemEditBtn = document.createElement("button");
-    itemEditBtn.classList.add("itemBtn--edit");
-
-    const itemEditBtnIcon = document.createElement("span");
-    itemEditBtnIcon.classList.add("material-symbols-outlined", "item__edit-btn");
-    itemEditBtnIcon.innerText = "edit";
-    itemEditBtn.appendChild(itemEditBtnIcon);
-
-    const itemDeleteBtn = document.createElement("button");
-    itemDeleteBtn.classList.add("itemBtn--delete");
-
-    const itemDeleteBtnIcon = document.createElement("span");
-    itemDeleteBtnIcon.classList.add("material-symbols-outlined", "item__delete-btn");
-    itemDeleteBtnIcon.innerText = "delete";
-    itemDeleteBtn.appendChild(itemDeleteBtnIcon);
-
-    createToDoCheckbox(newTodo, newItem, itemDiv, itemInput);
-
-    itemDiv.appendChild(itemInput);
-    itemDiv.appendChild(itemEditBtn);
-    itemDiv.appendChild(itemDeleteBtn);
-    newItem.appendChild(itemDiv);
-    items.appendChild(newItem);
-
-    itemEditBtn.addEventListener("click", () => {
-                handleEditBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon)});
-    itemEditBtn.addEventListener("mousedown", (event) => { 
-        /*input의 focus를 이용하기 위해 button의 focus를 막음 */
-        event.preventDefault();
-        itemEditBtn.blur();
-    })
-    itemInput.addEventListener("keyup", () => {
-        handleEditBtnEnter(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon)});
-   itemInput.addEventListener("blur", () => {
-        handleInputBlur(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon);
-    });
-    itemDeleteBtn.addEventListener("click", () => {
-        handleDeleteBtnClick(event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon, newItem);}); 
-    
-}

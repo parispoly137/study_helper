@@ -91,11 +91,6 @@
     background-color: transparent;
 }
 
-.itemInput:focus {
-    outline-color:rgb(7, 138, 7);
-}
-
-
 
 .itemBtn--edit,.itemBtn--delete {
     display: flex;

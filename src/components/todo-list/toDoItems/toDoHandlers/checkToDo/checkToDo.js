@@ -1,5 +1,7 @@
+import { toDos, saveToDos } from "../../../toDoList.js";
+
 /**checkbox가 check 됐을 때 todo item의 style과 checked 된 상태를 localStorage에 저장하는 함수 */ 
-const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
+export const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
     if (itemCheckbox.checked) {
      
         itemDiv.classList.add("itemDiv--checked");
@@ -25,7 +27,7 @@ const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
 
 
 /**Mouse가 checkbox에 hover 됐을 때 checkbox의 style을 변경해주는 함수 */
-const handleMouseHover =(itemCheckboxIcon, isHover) => {
+export const handleMouseHover =(itemCheckboxIcon, isHover) => {
     if(isHover) {
     itemCheckboxIcon.classList.add("itemCheckboxIcon--hover");
     }
