@@ -1,5 +1,5 @@
 import { getLocalStorage, showElement, hideElement } from "../timer-setting/timerSetting.js";
-import { setButtonState, setTimerTextUI, setActionButtonDesign, actionBtn, resetBtn } from "./timer-button/timerButton.js";
+import { setButtonState, setTimerTextUI, actionBtn, resetBtn } from "./timer-button/timerButton.js";
 import { renderProgressBar, resetProgressBar } from "./progress-bar/progressBar.js";
 import { changeColorSnippet } from "/src/utils/changeTheme.js";
 
@@ -25,9 +25,9 @@ const handleResetBtn = () => {
 	// Action 버튼 활성화
 	if (actionBtn.classList.contains("disabled")) {
 		showElement(prevArrow);// Timer-setting으로 넘어가는 화살표 활성화
-		setActionButtonDesign("pause"); // pause에서 start로 변경
 		setButtonState(actionBtn, "active");
 
+		actionBtn.textContent = "pause";
 	}
 
 	// clock text를 rest에서 focus 모드로 변환
@@ -141,16 +141,19 @@ const handleActionBtn = (e) => {
 	if (buttonText === "start") {
 		// action ~ start 버튼을 누른 경우
 		hideElement(prevArrow); // 화살표 비활성화
-		setActionButtonDesign(buttonText);
 		setButtonState(resetBtn, "disabled");
 		startTimer(); // 타이머 시작
+
+		actionBtn.textContent = "pause";
+		resetBtn.style.backgroundColor = "#9e9e9e";
 
 	} else {
 		// action ~ pause 버튼을 누른 경우
 		showElement(prevArrow); // 화살표 활성화
-		setActionButtonDesign(buttonText);
 		setButtonState(resetBtn, "active");
 		clearInterval(timerId); // 타이머 일시정지
+
+		actionBtn.textContent = "start";
 
 		// 일시정지 상태 버튼 활성화 UI
 		changeColorSnippet(actionBtn, "backgroundColor", "main");
