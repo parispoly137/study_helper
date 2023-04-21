@@ -21,13 +21,11 @@ const createToDoCheckbox = (newTodo, newItem, itemDiv, itemInput) => {
     itemCheckboxLabel.appendChild(itemCheckboxIcon);
     newItem.appendChild(itemCheckboxLabel);
 
-
     if (newTodo.checked) {
         itemDiv.classList.add("itemDiv--checked");
         itemInput.classList.add("itemInput--checked");
         itemCheckbox.checked = true;
     }
-
     itemCheckbox.addEventListener("change", () => {
         handleCheckboxChecked(event, itemCheckbox, itemDiv, itemInput);
    })
@@ -37,10 +35,8 @@ const createToDoCheckbox = (newTodo, newItem, itemDiv, itemInput) => {
 
 /**todo의 input과 btn이 담긴 div를 생성해주는 함수 */
 export const createToDoContainer = (newTodo, newItem) => {
-
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("itemDiv");
-
     const itemInput = document.createElement("input");
     itemInput.type = "text";
     itemInput.disabled = true;

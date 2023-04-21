@@ -1,4 +1,4 @@
-import { toDos, saveToDos } from "../../../toDoList.js";
+import { saveToDos, toDos } from "../../../toDoList.js";
 
 /**checkbox가 check 됐을 때 todo item의 style과 checked 된 상태를 localStorage에 저장하는 함수 */ 
 export const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) => {
@@ -10,7 +10,7 @@ export const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) =
         const toDoLiId= toDoLi.id;
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         toDos[toDoIndex].checked = true;
-        saveToDos();
+        saveToDos(toDos);
         
     }   
     else {
@@ -21,7 +21,7 @@ export const handleCheckboxChecked = (event, itemCheckbox, itemDiv, itemInput) =
         const toDoLiId= toDoLi.id;
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
         toDos[toDoIndex].checked = false;
-        saveToDos();
+        saveToDos(toDos);
     }
 };
 

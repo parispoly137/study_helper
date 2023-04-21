@@ -11,8 +11,10 @@ const TODOS_KEY = "todos";
 let toDos = []; //const로 하면 parsed로 인해 변수가 변경되는 내용을 받지 못한다.
 
 /**push 받은 toDos 배열 안의 object를 setItem을 이용해 localStorage에 저장하는 함수 */
-const saveToDos = () => {
+const saveToDos = (newToDos) => {
+    toDos = newToDos; // export 한 toDos를 다시 받아주는 문장
     localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
+    
 }
 
 /**toDos를 getItem을 이용해 localStorage에서 꺼내서 저장한 변수 */
@@ -24,7 +26,7 @@ if (savedToDos !== null) {
     parsedToDos.forEach(paintToDo);
 }
 
-addingToDoForm.addEventListener("submit", (e) => handleSubmit(e, addingToDoInput));
+addingToDoForm.addEventListener("submit", (e) => handleSubmit(e, addingToDoInput, toDos));
 window.addEventListener("storage", () => handleStorageChange(event)); 
 
 //enter 입력 시 error를 방지하기 위해 todo item의 submit을 방지

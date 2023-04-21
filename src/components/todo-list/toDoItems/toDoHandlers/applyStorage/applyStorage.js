@@ -26,7 +26,7 @@ export const handleStorageChange = (event) => {
                     
                         /*ls에서 text 속성의 다른 부분을 건드리면 삭제되게 적용 */
                         if (screenInputValue === "undefined") {
-                            deleteToDo(event, toDoLists[j]);
+                            deleteToDo();
                          }
                          /*ls에서 text 앞뒤에 빈칸이 있을 경우 trim() 적용 */
                         else if (newItemValue.startsWith("") || newItemValue.endsWith("")) {
@@ -49,7 +49,7 @@ export const handleStorageChange = (event) => {
                 for (let i=0; i< toDoLists.length; i++) {
                     if (toDoLists[i].id === oldValueId) {
                     /*추적한 id를 가진 li를 삭제*/
-                    deleteToDo (event, toDoLists[i]);
+                    deleteToDo ();
                     }
                 }
              }

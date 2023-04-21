@@ -3,13 +3,17 @@ import { toDos, saveToDos } from "../../../toDoList.js";
 /**todo Input을 수정할 때 focusout event 발생 시 작성된 내용 저장 후 비활성화*/
 export const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtnIcon) => {
     event.preventDefault();
+    if (event.type === "click" && event.target.classList.contains("item__delete-btn")) {
+        event.preventDefault();
+    }
+    else {
     const toDoLi = event.target.closest("li");
     const toDoLiId= toDoLi.id;
     const toDoInput = toDoLi.querySelector(".itemInput");
     const toDoInputValue = toDoInput.value.trim();
     const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
 
-    if (itemInput.value==false){
+    if (itemInput.value==""){
         alert("내용을 입력해주세요.")
         cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
     }
@@ -21,8 +25,8 @@ export const handleInputBlur = (event, itemInput, itemEditBtnIcon, itemDeleteBtn
         /*event가 발생한 li.id로 ls의 해당 객체를 찾아 ls를 input 값의 value로 수정하기*/
         
         toDos[toDoIndex].text = toDoInputValue;
-        saveToDos();
-    }
+        saveToDos(toDos);
+    }}
 }
 
 /**edit button 클릭을 통해 todo input 수정 활성화 및 적용하는 함수 */
@@ -56,7 +60,7 @@ export const handleEditBtnClick = (event, itemInput, itemEditBtnIcon, itemDelete
         else { 
         itemInput.value = toDoInputValue;
         toDos[toDoIndex].text = toDoInputValue;
-        saveToDos();
+        saveToDos(toDos);
         itemInput.disabled = true;
         }}
 
@@ -97,7 +101,7 @@ export const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDelete
         const toDoInput = toDoLi.querySelector(".itemInput");
         const toDoInputValue = toDoInput.value.trim();
         const toDoIndex = toDos.findIndex(((item) => item.id === parseInt(toDoLiId))); 
-        if(toDoInputValue==false) {
+        if(toDoInputValue=="") {
             alert("내용을 입력해주세요.");
             cancelEdit(itemInput, toDoIndex, itemEditBtnIcon, itemDeleteBtnIcon);
         }
@@ -106,7 +110,7 @@ export const handleEditBtnEnter = (event, itemInput, itemEditBtnIcon, itemDelete
         //toDos 라는 배열의 요소들 각각을 item이라 하는데 item 중 toDoLiId와 같은 id라는 요소를 찾아줌
         itemInput.value = toDoInputValue;
         toDos[toDoIndex].text = toDoInputValue;
-        saveToDos();
+        saveToDos(toDos);
         itemInput.disabled = true;
         }}
     }
