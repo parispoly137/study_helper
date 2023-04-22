@@ -2,7 +2,7 @@ import { TODOS_KEY } from "../../../toDoList.js";
 import { deleteToDo } from "../deleteToDo/deleteToDo.js";
 
 /**localStorage에서 text를 바꿨을 때 todo input에 수정한 내용을 적용하는 함수 */
-export const handleStorageChange = (event) => {
+export const applyStorageChanges = (event) => {
 
      /* localStorage의 todos key에서 변화되었는지 확인*/
      if(event.key === "todos") {

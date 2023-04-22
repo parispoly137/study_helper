@@ -1,5 +1,5 @@
 import { paintToDo, handleSubmit} from "./mainInput/mainInput.js";
-import { handleStorageChange } from "./toDoItems/toDoHandlers/applyStorage/applyStorage.js";
+import { applyStorageChanges } from "./toDoItems/toDoHandlers/applyStorage/applyStorage.js";
 
 const addingToDoForm = document.querySelector(".todolist__adding-form");
 const addingToDoInput = document.querySelector(".todolist__adding-form input");
@@ -27,7 +27,7 @@ if (savedToDos !== null) {
 }
 
 addingToDoForm.addEventListener("submit", (e) => handleSubmit(e, addingToDoInput, toDos));
-window.addEventListener("storage", () => handleStorageChange(event)); 
+window.addEventListener("storage", () => applyStorageChanges(event)); 
 
 //enter 입력 시 error를 방지하기 위해 todo item의 submit을 방지
 itemsForm.addEventListener("keydown", function(event) {
