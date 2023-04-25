@@ -50,11 +50,12 @@ body {
 
 .todolist {
   display: flex;
-  justify-content: center;
+  position:relative;
   align-items: center;
   font-size: 64px;
   background-image: url("/src/res/imgs/todolist-bg_1.jpg");
-  border-radius: 20px;
+  border-radius: 50px;
+  flex-direction: column;
 }
 
 @media (max-width: 1120px) {
