@@ -8,15 +8,18 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="src/reset.css" />
     <link rel="stylesheet" href="src/variables.css" />
     <link rel="stylesheet" href="src/styles.css" />
     <link rel="stylesheet" href="src/components/pomodoro/pomodoro.css" />
+    <link rel="stylesheet" href="src/components/todo-list/toDoList.css" />
     <script
       defer
       type="module"
       src="src/components/pomodoro/pomodoro.js"
     ></script>
+    <script type="module" src="src/components/todo-list/toDoList.js"></script>
     <script defer type="module" src="src/utils/changeTheme.js"></script>
     <title>Study helper</title>
   </head>
@@ -130,9 +133,22 @@
           </div>
         </div>
       </div>
-      <a href="todolist.html">
-        <section class="todolist section">Todo-list</section>
-      </a>
+      <div class="todolist section">
+        <h1 class="todolist__title">To do list</h1>
+        <form class="todolist__items-form">
+         <ul id="todolist__items"></ul>
+        </form>
+        <form class="todolist__adding-form">
+         <input type="text" maxlength="23" placeholder="해야할 일을 입력해주세요." />
+         <button>
+           <span class="material-symbols-outlined">
+             variables
+           </span>
+         </button>
+       </form>
+     </div>
+    
+
     </main>
   </body>
 </html>
