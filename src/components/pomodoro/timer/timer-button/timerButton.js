@@ -17,19 +17,9 @@ const setButtonState = (buttonName, targetState) => {
 };
 
 
-/** action button의 UI 변경 ... (arg: currentText) */
-const setActionButtonDesign = (buttonText) => {
-	const isStart = buttonText === "start";
-
-	actionBtn.textContent = isStart ? "pause" : "start";
-	actionBtn.style.backgroundColor = isStart ? "#ffc56c" : "#00b050";
-};
-
-
 export {
 	actionBtn,
 	resetBtn,
 	setTimerTextUI,
-	setButtonState,
-	setActionButtonDesign
+	setButtonState
 };
